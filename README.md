@@ -13,3 +13,9 @@ Pour eteindre l'application, il faut lancer la commande suivante:
 docker-compose down
 docker network rm pacs # si vous voulez supprimer le réseau
 ```
+
+Clean - up:
+
+```
+rm -rf ./orthanc-db/*
+```
