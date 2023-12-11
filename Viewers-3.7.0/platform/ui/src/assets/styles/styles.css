@@ -1,0 +1,53 @@
+/* CUSTOM OHIF SCROLLBAR */
+.ohif-scrollbar {
+  scrollbar-color: #173239 transparent;
+  scrollbar-gutter: stable;
+}
+
+.study-min-height {
+  min-height: 450px;
+}
+
+.ohif-scrollbar:hover {
+  overflow-y: auto;
+}
+
+.ohif-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.ohif-scrollbar::-webkit-scrollbar-track {
+  @apply rounded;
+}
+
+.ohif-scrollbar::-webkit-scrollbar-thumb {
+  @apply rounded;
+  @apply bg-primary-main;
+  background-color: #173239;
+}
+
+.ohif-scrollbar::-webkit-scrollbar-thumb:window-inactive {
+  @apply bg-primary-main;
+  background-color: #173239;
+}
+
+/* INVISIBLE SCROLLBAR */
+.invisible-scrollbar {
+  scrollbar-width: none;
+}
+
+.invisible-scrollbar::-webkit-scrollbar {
+  @apply hidden;
+}
+
+.invisible-scrollbar::-webkit-scrollbar-track {
+  @apply hidden;
+}
+
+.invisible-scrollbar::-webkit-scrollbar-thumb {
+  @apply hidden;
+}
+
+.invisible-scrollbar::-webkit-scrollbar-thumb:window-inactive {
+  @apply hidden;
+}

@@ -1,0 +1,10 @@
+# Specific to our deploy-preview
+# Our docs are published using CircleCI + GitBook
+# Confgure redirects using netlify.toml
+
+# PWA Demo
+/pwa/* /pwa/index.html 200
+# UI Demo
+/ui/* /ui/index.html 200
+# UI Demo
+/docs/* /docs/index.html 200
