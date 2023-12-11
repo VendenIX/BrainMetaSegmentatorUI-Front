@@ -17,6 +17,11 @@
   "HttpPort" : 8042,
   "HttpDescribeErrors" : true,
   "HttpCompressionEnabled" : true,
+  
+  
+  "HttpAccessControlAllowOrigin" : ["*"],
+  
+  
   "WebDavEnabled" : true,
   "WebDavDeleteAllowed" : false,
   "WebDavUploadAllowed" : true,

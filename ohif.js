@@ -8,14 +8,17 @@ window.config = {
     dicomWeb: [
       {
         name: 'Orthanc',
-        wadoUriRoot: '/orthanc/wado',
-        qidoRoot: '/orthanc/dicom-web',
-        wadoRoot: '/orthanc/dicom-web',
+        wadoUriRoot: 'http://localhost:8042/wado', /*'/orthanc/wado',*/
+        qidoRoot: 'http://localhost:8042/dicom-web',/*'/orthanc/dicom-web',*/
+        wadoRoot: 'http://localhost:8042/dicom-web', /*'/orthanc/dicom-web',*/
         qidoSupportsIncludeField: true,
         imageRendering: 'wadors',
         thumbnailRendering: 'wadors',
         enableStudyLazyLoad: true,
         supportsFuzzyMatching: true,
+        requestOption: {
+        	auth: 'mapdr:changestrongpassword',
+        	},
       },
     ],
   },
