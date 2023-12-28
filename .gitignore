@@ -1,5 +1,8 @@
 ./orthanc_db/*
 /orthanc_db/*
+Viewers-3.7.0/platform/core/node_modules/
+Viewers-3.7.0/platform/cli/node_modules/
+**/node_modules/
 
 # Packages
 Viewers-3.7.0/node_modules

@@ -29,6 +29,7 @@
     "dev:no:cache": "cross-env NODE_ENV=development webpack serve --no-cache --config .webpack/webpack.pwa.js",
     "dev:orthanc": "cross-env NODE_ENV=development PROXY_TARGET=/dicom-web PROXY_DOMAIN=http://localhost:8042 APP_CONFIG=config/docker_nginx-orthanc.js webpack serve --config .webpack/webpack.pwa.js",
     "dev:dcm4chee": "cross-env NODE_ENV=development APP_CONFIG=config/local_dcm4chee.js webpack serve --config .webpack/webpack.pwa.js",
+    "dev:nginx": "cross-env NODE_ENV=development PROXY_TARGET=/orthanc PROXY_DOMAIN=http://localhost:8080 APP_CONFIG=config/your-config-file.js webpack serve --config .webpack/webpack.pwa.js",
     "dev:static": "cross-env NODE_ENV=development APP_CONFIG=config/local_static.js webpack serve --config .webpack/webpack.pwa.js",
     "dev:viewer": "yarn run dev",
     "start": "yarn run dev",

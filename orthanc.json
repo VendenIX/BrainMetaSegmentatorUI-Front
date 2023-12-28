@@ -13,6 +13,10 @@
   ],
   "ConcurrentJobs" : 2,
   "HttpServerEnabled" : true,
+  "HttpServer" : {
+    "EnableCors" : true,
+    "AccessControlAllowOrigin" : "*"
+  },  
   "OrthancExplorerEnabled" : true,
   "HttpPort" : 8042,
   "HttpDescribeErrors" : true,
@@ -34,10 +38,7 @@
   "SslMinimumProtocolVersion" : 4,
   "SslVerifyPeers" : false,
   "SslTrustedClientCertificates" : "trustedClientCertificates.pem",
-  "AuthenticationEnabled" : true,
-    "RegisteredUsers" : {
-    "mapdr" : "changestrongpassword"
-  },
+  "AuthenticationEnabled" : false,
   "DicomTlsEnabled" : false,
   "DicomTlsRemoteCertificateRequired" : true,
   "DicomAlwaysAllowEcho" : true,
