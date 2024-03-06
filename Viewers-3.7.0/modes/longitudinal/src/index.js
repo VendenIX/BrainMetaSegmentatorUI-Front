@@ -1,7 +1,7 @@
 import { hotkeys } from '@ohif/core';
-import toolbarButtons from './toolbarButtons';
 import { id } from './id';
 import initToolGroups from './initToolGroups';
+import toolbarButtons from './toolbarButtons';
 
 // Allow this mode by excluding non-imaging modalities such as SR, SEG
 // Also, SM is not a simple imaging modalities, so exclude it.
@@ -55,6 +55,7 @@ const extensionDependencies = {
   '@ohif/extension-cornerstone-dicom-rt': '^3.0.0',
   '@ohif/extension-dicom-pdf': '^3.0.1',
   '@ohif/extension-dicom-video': '^3.0.1',
+  'MetIA': '^0.0.1',
 };
 
 function modeFactory({ modeConfiguration }) {
@@ -194,7 +195,7 @@ function modeFactory({ modeConfiguration }) {
             id: ohif.layout,
             props: {
               leftPanels: [tracked.thumbnailList],
-              rightPanels: [dicomSeg.panel, tracked.measurements],
+              rightPanels: [dicomSeg.panel, tracked.measurements, 'MetIA.panelModule.buttonPanel'],
               rightPanelDefaultClosed: true,
               viewports: [
                 {

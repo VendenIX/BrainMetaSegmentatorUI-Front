@@ -40,7 +40,8 @@
     "@ohif/extension-default": "3.7.0",
     "@ohif/extension-dicom-pdf": "3.7.0",
     "@ohif/extension-dicom-video": "3.7.0",
-    "@ohif/extension-measurement-tracking": "3.7.0"
+    "@ohif/extension-measurement-tracking": "3.7.0",
+    "MetIA": "0.0.1"
   },
   "dependencies": {
     "@babel/runtime": "^7.20.13"

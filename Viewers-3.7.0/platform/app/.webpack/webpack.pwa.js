@@ -69,6 +69,9 @@ module.exports = (env, argv) => {
         // Hoisted Yarn Workspace Modules
         path.resolve(__dirname, '../../../node_modules'),
         SRC_DIR,
+        path.resolve(__dirname, 'extensions/metIA-extension/node_modules'),
+        path.resolve(__dirname, 'extensions/MetIA/node_modules'),
+        path.resolve(__dirname, 'extensions/MetIA/node_modules'),
       ],
     },
     plugins: [
