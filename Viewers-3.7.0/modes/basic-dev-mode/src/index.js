@@ -1,6 +1,6 @@
-import toolbarButtons from './toolbarButtons.js';
 import { hotkeys } from '@ohif/core';
 import { id } from './id';
+import toolbarButtons from './toolbarButtons.js';
 
 const configs = {
   Length: {},
