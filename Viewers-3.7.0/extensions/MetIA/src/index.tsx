@@ -1,6 +1,6 @@
 import React from 'react';
-import { id } from './id';
 import ButtonPanelComponent from './ButtonPanelComponent';
+import { id } from './id';
 /**
  * You can remove any of the following modules if you don't need them.
  */
@@ -30,7 +30,7 @@ export default {
         name: 'buttonPanel',
         iconName: 'logo-ohif-small',
         iconLabel: 'buttonPanel',
-        label: 'Button Panel',
+        label: 'MetIA',
         component: (props) => <ButtonPanelComponent {...props} servicesManager={servicesManager} />,
       },
     ];
