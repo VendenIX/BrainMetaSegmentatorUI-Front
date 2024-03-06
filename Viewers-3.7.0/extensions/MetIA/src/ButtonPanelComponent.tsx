@@ -1,22 +1,45 @@
 import React, { useEffect } from 'react';
+import SegmentationButton from './SegmentationButton';
 
 const ButtonPanelComponent = ({ servicesManager }) => {
   useEffect(() => {
-    // Ici, vous pouvez accéder aux services via servicesManager et récupérer les données nécessaires
-    // Exemple: Accéder à un service fictif 'currentStudyService' qui stocke l'ID de l'étude courante
-    // Cette partie du code dépend de comment votre application et services sont structurés
     const hangingProtocolService = servicesManager.services.HangingProtocolService;
 
     if (hangingProtocolService && hangingProtocolService.activeStudy) {
-      // Récupérer l'ID de l'étude active
       const studyInstanceUID = hangingProtocolService.activeStudy.StudyInstanceUID;
+      console.log(servicesManager.services);
       console.log(`StudyInstanceUID courant: ${studyInstanceUID}`);
     }
   }, [servicesManager]);
 
+  const performSegmentation = () => {
+    const hangingProtocolService = servicesManager.services.HangingProtocolService;
+    if (hangingProtocolService && hangingProtocolService.activeStudy) {
+      const studyInstanceUID = hangingProtocolService.activeStudy.StudyInstanceUID;
+      
+      // Ici, vous pouvez intégrer l'appel API pour la segmentation en utilisant `studyInstanceUID`
+      // Exemple:
+      fetch(`http://localhost:5000/segmentation/${studyInstanceUID}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        alert("Segmentation and RTStruct upload completed successfully");
+      })
+      .catch(error => {
+        console.error('There was an error during segmentation or RTStruct upload:', error);
+        alert("Failed to complete segmentation or RTStruct upload");
+      });
+    }
+  };
+
   return (
     <div className="text-white w-full text-center">
-      <button>Cliquez moi</button>
+      <SegmentationButton onSegmentation={performSegmentation} />
     </div>
   );
 };
