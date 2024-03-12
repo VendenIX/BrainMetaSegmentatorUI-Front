@@ -1,0 +1,18 @@
+{
+  "AccessionNumber": "Accession #",
+  "ClearFilters": "Clear Filters",
+  "Description": "Description",
+  "Empty": "Empty",
+  "Instances": "Instances",
+  "MRN": "MRN",
+  "NumOfStudiesHiggerThan100Message": "Filter the list to 100 studies or less to enable sorting",
+  "Modality": "Modality",
+  "PatientName": "Patient Name",
+  "Previous": "< Back",
+  "Page": "Page",
+  "Next": "Next >",
+  "Results per page": "Results per page",
+  "Number of studies": "Studies",
+  "StudyDate": "Study Date",
+  "StudyList": "Study List"
+}

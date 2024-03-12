@@ -1,0 +1,18 @@
+{
+  "AccessionNumber": "Num. Adhesión",
+  "ClearFilters": "Limpiar filtros",
+  "Description": "Descripción",
+  "Empty": "vacío",
+  "Instances": "Instancias",
+  "MRN": "MRN",
+  "NumOfStudiesHiggerThan100Message": "Filtre la lista a 100 estudios o menos para habilitar la clasificación",
+  "Modality": "Modalidad",
+  "PatientName": "Nombre paciente",
+  "Previous": "< Anterior",
+  "Page": "Página",
+  "Next": "Siguiente >",
+  "Results per page": "Resultados por página",
+  "Number of studies": "Estudios",
+  "StudyDate": "Fecha del estudio",
+  "StudyList": "Lista de Estudios"
+}
