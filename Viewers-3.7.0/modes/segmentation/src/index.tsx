@@ -30,6 +30,7 @@ const extensionDependencies = {
   '@ohif/extension-default': '^3.0.0',
   '@ohif/extension-cornerstone': '^3.0.0',
   '@ohif/extension-cornerstone-dicom-seg': '^3.0.0',
+  "ohif-extension-training" : "^0.0.1",
 };
 
 function modeFactory({ modeConfiguration }) {
@@ -142,8 +143,8 @@ function modeFactory({ modeConfiguration }) {
           return {
             id: ohif.layout,
             props: {
-              leftPanels: [ohif.leftPanel],
-              rightPanels: [segmentation.panelTool],
+              leftPanels: [ohif.leftPanel, 'ohif-extension-training.panelModule.math'],
+              rightPanels: ['ohif-extension-training.panelModule.math',segmentation.panelTool],
               viewports: [
                 {
                   namespace: cornerstone.viewport,

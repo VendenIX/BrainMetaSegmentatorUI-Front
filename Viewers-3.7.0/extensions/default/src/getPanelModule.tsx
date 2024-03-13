@@ -1,6 +1,7 @@
 import React from 'react';
 import { WrappedPanelStudyBrowser, PanelMeasurementTable } from './Panels';
 
+
 // TODO:
 // - No loading UI exists yet
 // - cancel promises when component is destroyed
@@ -27,7 +28,8 @@ function getPanelModule({ commandsManager, extensionManager, servicesManager }) 
         commandsManager,
         extensionManager,
         servicesManager,
-      }),
+        })
+        ,
     },
     {
       name: 'measure',

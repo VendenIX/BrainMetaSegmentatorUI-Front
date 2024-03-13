@@ -69,6 +69,16 @@ module.exports = (env, argv) => {
         // Hoisted Yarn Workspace Modules
         path.resolve(__dirname, '../../../node_modules'),
         SRC_DIR,
+        path.resolve(
+          __dirname,
+          '/home/typhaine/Documents/master/projet-irm/BrainMetaSegmentatorUI-Front/ohif-modes/ohif-mode-training/node_modules'
+        ),
+        path.resolve(__dirname, '../ohif-extensions/ohif-extension-training/node_modules'),
+        path.resolve(__dirname, '../ohif-extensions/ohif-extension-training/node_modules'),
+        path.resolve(__dirname, '../ohif-extensions/ohif-extension-training/node_modules'),
+        path.resolve(__dirname, '../ohif-modes/ohif-mode-training/node_modules'),
+        path.resolve(__dirname, '../ohif-extensions/ohif-extension-training/node_modules'),
+        path.resolve(__dirname, '../ohif-modes/ohif-mode-training/node_modules'),
       ],
     },
     plugins: [

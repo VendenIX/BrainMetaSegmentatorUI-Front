@@ -5,6 +5,7 @@ import PanelStudyBrowser from './PanelStudyBrowser';
 import getImageSrcFromImageId from './getImageSrcFromImageId';
 import getStudiesForPatientByMRN from './getStudiesForPatientByMRN';
 import requestDisplaySetCreationForStudy from './requestDisplaySetCreationForStudy';
+import MathSidePanelComponent from './../../../../../ohif-extensions/ohif-extension-training/src/MathSidePanelComponent';
 
 /**
  * Wraps the PanelStudyBrowser and provides features afforded by managers/services
@@ -25,13 +26,18 @@ function WrappedPanelStudyBrowser({ commandsManager, extensionManager, servicesM
   );
 
   return (
-    <PanelStudyBrowser
-      servicesManager={servicesManager}
-      dataSource={dataSource}
-      getImageSrc={_getImageSrcFromImageId}
-      getStudiesForPatientByMRN={_getStudiesForPatientByMRN}
-      requestDisplaySetCreationForStudy={_requestDisplaySetCreationForStudy}
-    />
+    <div>
+      <MathSidePanelComponent />
+
+      <PanelStudyBrowser
+        servicesManager={servicesManager}
+        dataSource={dataSource}
+        getImageSrc={_getImageSrcFromImageId}
+        getStudiesForPatientByMRN={_getStudiesForPatientByMRN}
+        requestDisplaySetCreationForStudy={_requestDisplaySetCreationForStudy}
+      />
+    </div>
+    
   );
 }
 
