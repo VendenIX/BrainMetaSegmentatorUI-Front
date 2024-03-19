@@ -5,6 +5,9 @@ import PanelStudyBrowserTracking from './PanelStudyBrowserTracking';
 import getImageSrcFromImageId from './getImageSrcFromImageId';
 import requestDisplaySetCreationForStudy from './requestDisplaySetCreationForStudy';
 
+// Ajout pour MetIA :
+import ButtonPanelComponent from './../../../../MetIA/src/ButtonPanelComponent';
+
 function _getStudyForPatientUtility(extensionManager) {
   const utilityModule = extensionManager.getModuleEntry(
     '@ohif/extension-default.utilityModule.common'
@@ -31,15 +34,22 @@ function WrappedPanelStudyBrowserTracking({ commandsManager, extensionManager, s
     null,
     dataSource
   );
-
+  // Ajout pour MetIA :
   return (
-    <PanelStudyBrowserTracking
-      servicesManager={servicesManager}
-      dataSource={dataSource}
-      getImageSrc={_getImageSrcFromImageId}
-      getStudiesForPatientByMRN={_getStudiesForPatientByMRN}
-      requestDisplaySetCreationForStudy={_requestDisplaySetCreationForStudy}
+    <div>
+      <ButtonPanelComponent 
+        servicesManager={servicesManager} 
+      />
+
+      <PanelStudyBrowserTracking
+        servicesManager={servicesManager}
+        dataSource={dataSource}
+        getImageSrc={_getImageSrcFromImageId}
+        getStudiesForPatientByMRN={_getStudiesForPatientByMRN}
+        requestDisplaySetCreationForStudy={_requestDisplaySetCreationForStudy}
     />
+    </div>
+    
   );
 }
 

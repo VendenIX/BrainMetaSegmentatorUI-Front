@@ -53,10 +53,6 @@
       "version": "3.0.0"
     },
     {
-      "packageName": "metIA-extension",
-      "version": "0.0.1"
-    },
-    {
       "packageName": "MetIA",
       "version": "0.0.1"
     }
