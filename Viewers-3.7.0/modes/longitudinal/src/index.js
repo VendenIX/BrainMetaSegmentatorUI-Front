@@ -195,7 +195,7 @@ function modeFactory({ modeConfiguration }) {
             id: ohif.layout,
             props: {
               leftPanels: [tracked.thumbnailList],
-              rightPanels: [dicomSeg.panel, tracked.measurements, 'MetIA.panelModule.buttonPanel'],
+              rightPanels: [dicomSeg.panel, tracked.measurements,'MetIA.panelModule.buttonPanel'],
               rightPanelDefaultClosed: true,
               viewports: [
                 {
