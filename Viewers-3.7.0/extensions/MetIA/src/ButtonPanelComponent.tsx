@@ -1,7 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import SegmentationButton from './SegmentationButton';
 
 const ButtonPanelComponent = ({ servicesManager }) => {
+  const [message, setMessage] = useState({ text: '', type: '' });
+
   useEffect(() => {
     const hangingProtocolService = servicesManager.services.HangingProtocolService;
 
@@ -17,8 +19,6 @@ const ButtonPanelComponent = ({ servicesManager }) => {
     if (hangingProtocolService && hangingProtocolService.activeStudy) {
       const studyInstanceUID = hangingProtocolService.activeStudy.StudyInstanceUID;
       
-      // Ici, vous pouvez intégrer l'appel API pour la segmentation en utilisant `studyInstanceUID`
-      // Exemple:
       fetch(`http://localhost:5000/segmentation/${studyInstanceUID}`, {
         method: 'POST',
         headers: {
@@ -28,11 +28,11 @@ const ButtonPanelComponent = ({ servicesManager }) => {
       .then(response => response.json())
       .then(data => {
         console.log(data);
-        alert("Segmentation and RTStruct upload completed successfully");
+        setMessage({ text: 'Operation successful', type: 'success' });
       })
       .catch(error => {
         console.error('There was an error during segmentation or RTStruct upload:', error);
-        alert("Failed to complete segmentation or RTStruct upload");
+        setMessage({ text: 'Failed to complete segmentation or RTStruct upload', type: 'error' });
       });
     }
   };
@@ -40,6 +40,11 @@ const ButtonPanelComponent = ({ servicesManager }) => {
   return (
     <div className="text-white w-full text-center">
       <SegmentationButton onSegmentation={performSegmentation} />
+      {message.text && (
+        <div style={{ color: message.type === 'success' ? 'green' : 'red' }}>
+          {message.text}
+        </div>
+      )}
     </div>
   );
 };
