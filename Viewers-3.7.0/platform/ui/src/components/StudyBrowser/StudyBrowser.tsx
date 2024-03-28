@@ -34,7 +34,7 @@ const StudyBrowser = ({
   const { t } = useTranslation('StudyBrowser');
   const { customizationService } = servicesManager?.services || {};
 
-  const getTabContent = () => {
+  const getTabContent = (servicesManager) => {
     const tabData = tabs.find(tab => tab.name === activeTabName);
     return tabData.studies.map(
       ({ studyInstanceUid, date, description, numInstances, modalities, displaySets }) => {
@@ -55,6 +55,7 @@ const StudyBrowser = ({
             />
             {isExpanded && displaySets && (
               <ThumbnailList
+                servicesManager={servicesManager}
                 thumbnails={displaySets}
                 activeDisplaySetInstanceUIDs={activeDisplaySetInstanceUIDs}
                 onThumbnailClick={onClickThumbnail}
@@ -110,8 +111,13 @@ const StudyBrowser = ({
           })}
         </LegacyButtonGroup>
       </div>
+
       <div className="ohif-scrollbar invisible-scrollbar flex flex-1 flex-col overflow-auto">
-        {getTabContent()}
+        {getTabContent(servicesManager)}
+        
+        <div>
+          Ceci est un test
+        </div>
       </div>
     </React.Fragment>
   );

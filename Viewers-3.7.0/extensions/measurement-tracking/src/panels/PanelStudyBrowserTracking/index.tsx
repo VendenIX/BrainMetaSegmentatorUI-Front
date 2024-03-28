@@ -37,9 +37,7 @@ function WrappedPanelStudyBrowserTracking({ commandsManager, extensionManager, s
   // Ajout pour MetIA :
   return (
     <div>
-      <ButtonPanelComponent 
-        servicesManager={servicesManager} 
-      />
+      
 
       <PanelStudyBrowserTracking
         servicesManager={servicesManager}
@@ -48,6 +46,7 @@ function WrappedPanelStudyBrowserTracking({ commandsManager, extensionManager, s
         getStudiesForPatientByMRN={_getStudiesForPatientByMRN}
         requestDisplaySetCreationForStudy={_requestDisplaySetCreationForStudy}
     />
+
     </div>
     
   );

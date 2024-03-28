@@ -1,12 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+
+
 import Thumbnail from '../Thumbnail';
 import ThumbnailNoImage from '../ThumbnailNoImage';
 import ThumbnailTracked from '../ThumbnailTracked';
 import * as Types from '../../types';
 
+import ButtonPanelComponent from './../../../../../extensions/MetIA/src/ButtonPanelComponent';
+
+
 const ThumbnailList = ({
+  servicesManager,
   thumbnails,
   onThumbnailClick,
   onThumbnailDoubleClick,
@@ -14,6 +20,7 @@ const ThumbnailList = ({
   activeDisplaySetInstanceUIDs = [],
 }) => {
   return (
+    <div>
     <div
       id="ohif-thumbnail-list"
       className="ohif-scrollbar study-min-height overflow-y-hidden bg-black py-3"
@@ -102,10 +109,17 @@ const ThumbnailList = ({
               );
             default:
               return <></>;
-          }
+          } 
         }
       )}
+
+      <ButtonPanelComponent 
+        servicesManager={servicesManager} 
+      />
     </div>
+    
+    </div>
+
   );
 };
 
