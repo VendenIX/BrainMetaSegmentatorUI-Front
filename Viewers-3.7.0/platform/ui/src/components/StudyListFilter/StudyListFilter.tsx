@@ -11,7 +11,7 @@ const StudyListFilter = ({
   filtersMeta,
   filterValues,
   onChange,
-  clearFilters,
+  clearFilters, 
   isFiltering,
   numOfStudies,
   onUploadClick,
@@ -39,7 +39,21 @@ const StudyListFilter = ({
                   variant="h6"
                   className="text-white"
                 >
-                  {t('StudyList')}
+                  <a href="">{t('StudyList')}</a>
+                </Typography>
+
+                <Typography
+                  variant="h6"
+                  className="text-white border rounded px-2 py-1"
+                >
+                  <a href="javascript:alert('Go to the Patients List')">{' Patient List '}</a>
+                </Typography>
+
+                <Typography
+                  variant="h6"
+                  className="text-white border rounded px-2 py-1"
+                >
+                  <a href="javascript:alert('Import a Study here')">{' Import a Study '}</a>
                 </Typography>
                 {getDataSourceConfigurationComponent && getDataSourceConfigurationComponent()}
                 {onUploadClick && (
