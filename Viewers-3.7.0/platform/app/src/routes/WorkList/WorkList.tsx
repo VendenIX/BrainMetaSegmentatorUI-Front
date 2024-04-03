@@ -1,31 +1,31 @@
-import React, { useState, useEffect, useMemo } from 'react';
 import classnames from 'classnames';
-import PropTypes from 'prop-types';
-import { Link, useNavigate } from 'react-router-dom';
-import moment from 'moment';
-import qs from 'query-string';
 import isEqual from 'lodash.isequal';
+import moment from 'moment';
+import PropTypes from 'prop-types';
+import qs from 'query-string';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link, useNavigate } from 'react-router-dom';
 //
-import filtersMeta from './filtersMeta.js';
-import { useAppConfig } from '@state';
 import { useDebounce, useSearchParams } from '@hooks';
-import { utils, hotkeys, ServicesManager } from '@ohif/core';
+import { ServicesManager, hotkeys, utils } from '@ohif/core';
+import { useAppConfig } from '@state';
+import filtersMeta from './filtersMeta.js';
 
 import {
-  Icon,
-  StudyListExpandedRow,
-  LegacyButton,
-  EmptyStudies,
-  StudyListTable,
-  StudyListPagination,
-  StudyListFilter,
-  TooltipClipboard,
-  Header,
-  useModal,
   AboutModal,
-  UserPreferences,
+  EmptyStudies,
+  Header,
+  Icon,
+  LegacyButton,
   LoadingIndicatorProgress,
+  StudyListExpandedRow,
+  StudyListFilter,
+  StudyListPagination,
+  StudyListTable,
+  TooltipClipboard,
+  UserPreferences,
+  useModal,
 } from '@ohif/ui';
 
 import i18n from '@ohif/i18n';
@@ -476,6 +476,19 @@ function WorkList({
   const { component: dataSourceConfigurationComponent } =
     customizationService.get('ohif.dataSourceConfigurationComponent') ?? {};
 
+    // Définir un état local pour contrôler ce qui est affiché
+  const [showStudies, setShowStudies] = useState(false);
+  
+    // Fonction pour gérer le clic sur le bouton Test
+  const handleTestButtonClick = () => {
+      setShowStudies(true); // Modifier l'état pour afficher la liste des études
+  };
+
+  const handleBackToMenuClick = () => {
+    setShowStudies(false); // Modifier l'état pour cacher la liste des études
+  };
+  
+
   return (
     <div className="flex h-screen flex-col bg-black ">
       <Header
@@ -484,7 +497,15 @@ function WorkList({
         isReturnEnabled={false}
         WhiteLabeling={appConfig.whiteLabeling}
       />
-      <div className="ohif-scrollbar flex grow flex-col overflow-y-auto">
+      <div className="flex justify-center items-center">
+      <h1 className="text-4xl font-bold text-blue-500">
+        MetIA
+      </h1>
+      </div>
+
+      {showStudies ? (
+        <div className="ohif-scrollbar flex grow flex-col overflow-y-auto">
+          <div className="ohif-scrollbar flex grow flex-col overflow-y-auto">
         <StudyListFilter
           numOfStudies={pageNumber * resultsPerPage > 100 ? 101 : numOfStudies}
           filtersMeta={filtersMeta}
@@ -513,7 +534,16 @@ function WorkList({
                 perPage={resultsPerPage}
               />
             </div>
+            <div className="flex justify-center p-5">
+                  <button
+                    className="px-4 py-2 text-white bg-red-500 rounded hover:bg-red-700"
+                    onClick={handleBackToMenuClick}
+                  >
+                    Retour au menu
+                  </button>
+                </div>
           </div>
+          
         ) : (
           <div className="flex flex-col items-center justify-center pt-48">
             {appConfig.showLoadingIndicator && isLoadingData ? (
@@ -522,8 +552,22 @@ function WorkList({
               <EmptyStudies />
             )}
           </div>
+
         )}
       </div>
+        </div>
+      ) : (
+        // Bouton qui est affiché au lieu de la liste des études
+        <div className="flex justify-center pt-10">
+          <button
+            className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-700"
+            onClick={handleTestButtonClick}
+          >
+            Liste des études
+          </button>
+        </div>
+      )}
+      
     </div>
   );
 }

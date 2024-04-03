@@ -6,7 +6,7 @@ const ButtonPanelComponent = ({ servicesManager }) => {
 
   useEffect(() => {
     const hangingProtocolService = servicesManager.services.HangingProtocolService;
-
+    console.log('HangingProtocolService:', servicesManager.services);
     if (hangingProtocolService && hangingProtocolService.activeStudy) {
       const studyInstanceUID = hangingProtocolService.activeStudy.StudyInstanceUID;
       console.log(servicesManager.services);
@@ -18,7 +18,7 @@ const ButtonPanelComponent = ({ servicesManager }) => {
     const hangingProtocolService = servicesManager.services.HangingProtocolService;
     if (hangingProtocolService && hangingProtocolService.activeStudy) {
       const studyInstanceUID = hangingProtocolService.activeStudy.StudyInstanceUID;
-      
+
       fetch(`http://localhost:5000/segmentation/${studyInstanceUID}`, {
         method: 'POST',
         headers: {
@@ -29,6 +29,9 @@ const ButtonPanelComponent = ({ servicesManager }) => {
       .then(data => {
         console.log(data);
         setMessage({ text: 'Operation successful', type: 'success' });
+        
+        servicesManager.services.uiNotificationService.publish('SEGMENTATION_COMPLETE', { studyInstanceUID });
+
       })
       .catch(error => {
         console.error('There was an error during segmentation or RTStruct upload:', error);
