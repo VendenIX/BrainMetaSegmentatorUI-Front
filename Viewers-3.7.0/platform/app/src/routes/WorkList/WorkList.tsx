@@ -14,6 +14,7 @@ import filtersMeta from './filtersMeta.js';
 
 import {
   AboutModal,
+  Button,
   EmptyStudies,
   Header,
   Icon,
@@ -25,7 +26,7 @@ import {
   StudyListTable,
   TooltipClipboard,
   UserPreferences,
-  useModal,
+  useModal
 } from '@ohif/ui';
 
 import i18n from '@ohif/i18n';
@@ -494,8 +495,9 @@ function WorkList({
       <Header
         isSticky
         menuOptions={menuOptions}
-        isReturnEnabled={false}
+        isReturnEnabled={showStudies}
         WhiteLabeling={appConfig.whiteLabeling}
+        onClickReturnButton={handleBackToMenuClick}
       />
       <div className="flex justify-center items-center">
       <h1 className="text-4xl font-bold text-blue-500">
@@ -535,12 +537,6 @@ function WorkList({
               />
             </div>
             <div className="flex justify-center p-5">
-                  <button
-                    className="px-4 py-2 text-white bg-red-500 rounded hover:bg-red-700"
-                    onClick={handleBackToMenuClick}
-                  >
-                    Retour au menu
-                  </button>
                 </div>
           </div>
           
@@ -559,12 +555,11 @@ function WorkList({
       ) : (
         // Bouton qui est affiché au lieu de la liste des études
         <div className="flex justify-center pt-10">
-          <button
-            className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-700"
+          <Button
             onClick={handleTestButtonClick}
           >
             Liste des études
-          </button>
+          </Button>
         </div>
       )}
       
