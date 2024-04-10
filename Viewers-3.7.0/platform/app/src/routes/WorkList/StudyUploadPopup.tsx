@@ -2,19 +2,22 @@ import { Button, Modal, ProgressLoadingBar } from '@ohif/ui';
 import React, { useState } from 'react';
 import DragAndDrop from './DragAndDrop';
 
-const StudyUploadPopup = () => {
+const StudyUploadPopup = ({ onComplete }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(null); // null indique qu'aucun upload n'est en cours
   const [filesCounter, setFilesCounter] = useState(null); // gère le comptage des fichiers traités/total
 
   const handleFilesDrop = (files) => {
-    setUploadProgress(0);
-    setFilesCounter(`0/${files.length}`); // init le compteur avec le total de fichiers
+    // Déclenchez l'upload de tous les fichiers, comme avant
+    // Après le dernier upload, appelez onComplete
     for (let i = 0; i < files.length; i++) {
-      uploadFileToServer(files[i], files.length, i);
+        uploadFileToServer(files[i], files.length, i).then(() => {
+            if (i === files.length - 1) {
+                onComplete(); // Appelez onComplete après le dernier fichier
+            }
+        });
     }
-  };
-
+};
   const uploadFileToServer = async (file, totalFiles, currentIndex) => {
     const formData = new FormData();
     formData.append('file', file);
