@@ -10,6 +10,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDebounce, useSearchParams } from '@hooks';
 import { ServicesManager, hotkeys, utils } from '@ohif/core';
 import { useAppConfig } from '@state';
+import StudyUploadPopup from './StudyUploadPopup';
 import filtersMeta from './filtersMeta.js';
 
 import {
@@ -552,15 +553,17 @@ function WorkList({
         )}
       </div>
         </div>
-      ) : (
-        // Bouton qui est affiché au lieu de la liste des études
+      ) : (<>
         <div className="flex justify-center pt-10">
+        <StudyUploadPopup />
+        
           <Button
             onClick={handleTestButtonClick}
           >
             Liste des études
           </Button>
         </div>
+        </>
       )}
       
     </div>
