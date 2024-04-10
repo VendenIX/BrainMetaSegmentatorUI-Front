@@ -556,12 +556,14 @@ function WorkList({
       ) : (
         <>
         <div className="flex justify-center pt-10">
-          <div className="btn-width mx-auto"> {/* Utilisez la classe personnalisée pour un contrôle précis de la largeur */}
-            <StudyUploadPopup />
+          <div className="btn-width mx-auto"> 
+          <StudyUploadPopup onComplete={() => {
+            onRefresh(); 
+        }} />
           </div>
         </div>
         <div className="flex justify-center pt-2">
-          <div className="btn-width mx-auto"> {/* Assurez-vous d'utiliser la même classe ici */}
+          <div className="btn-width mx-auto"> 
             <Button onClick={handleTestButtonClick}>
               Liste des études
             </Button>
