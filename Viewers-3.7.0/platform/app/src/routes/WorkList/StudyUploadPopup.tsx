@@ -5,10 +5,11 @@ import DragAndDrop from './DragAndDrop';
 const StudyUploadPopup = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(null); // null indique qu'aucun upload n'est en cours
+  const [filesCounter, setFilesCounter] = useState(null); // gère le comptage des fichiers traités/total
 
   const handleFilesDrop = (files) => {
-    // init la progression à 0 au début de l'upload
     setUploadProgress(0);
+    setFilesCounter(`0/${files.length}`); // init le compteur avec le total de fichiers
     for (let i = 0; i < files.length; i++) {
       uploadFileToServer(files[i], files.length, i);
     }
@@ -32,17 +33,22 @@ const StudyUploadPopup = () => {
       const result = await response.json();
       
       console.log("Upload réussi:", result);
+      // update de la barre de progression et du compteur de fichiers
+      const updatedIndex = currentIndex + 1;
+      setUploadProgress((updatedIndex / totalFiles) * 100);
+      setFilesCounter(`${updatedIndex}/${totalFiles}`);
 
-      // update la progression en fonction du nombre de fichiers traités
-      setUploadProgress(((currentIndex + 1) / totalFiles) * 100);
-
-      // Si c'est le dernier fichier, on reset la progression après un court délai
+      // reset les états à la fin de l'upload
       if (currentIndex === totalFiles - 1) {
-        setTimeout(() => setUploadProgress(null), 2000); // cache la barre après 2 secondes
+        setTimeout(() => {
+          setUploadProgress(null);
+          setFilesCounter(null);
+        }, 2000); // cache la barre et le compteur après 2 secondes
       }
     } catch (error) {
       console.error("Erreur lors de l'envoi du fichier:", error);
-      setUploadProgress(null); // cache la barre en cas d'erreur
+      setUploadProgress(null); // cache la barre et le compteur en cas d'erreur
+      setFilesCounter(null);
     }
   };
 
@@ -59,8 +65,15 @@ const StudyUploadPopup = () => {
       >
         <div>
           <DragAndDrop onDrop={handleFilesDrop} />
-          {/* affichage de la barre de progression uniquement si uploadProgress n'est pas null */}
-          {uploadProgress !== null && <ProgressLoadingBar progress={uploadProgress} />}
+          {/* affiche la barre de progression et le compteur de fichiers seulement s'ils ne sont pas null */}
+          {uploadProgress !== null && (
+            <>
+              <ProgressLoadingBar progress={uploadProgress} />
+              <div style={{ color: 'lightblue', textAlign: 'center' }}>
+                {filesCounter}
+              </div>
+            </>
+          )}
         </div>
       </Modal>
     </>
