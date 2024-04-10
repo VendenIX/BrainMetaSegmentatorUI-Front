@@ -553,17 +553,22 @@ function WorkList({
         )}
       </div>
         </div>
-      ) : (<>
+      ) : (
+        <>
         <div className="flex justify-center pt-10">
-        <StudyUploadPopup />
-        
-          <Button
-            onClick={handleTestButtonClick}
-          >
-            Liste des études
-          </Button>
+          <div className="btn-width mx-auto"> {/* Utilisez la classe personnalisée pour un contrôle précis de la largeur */}
+            <StudyUploadPopup />
+          </div>
         </div>
-        </>
+        <div className="flex justify-center pt-2">
+          <div className="btn-width mx-auto"> {/* Assurez-vous d'utiliser la même classe ici */}
+            <Button onClick={handleTestButtonClick}>
+              Liste des études
+            </Button>
+          </div>
+        </div>
+      </>
+
       )}
       
     </div>
