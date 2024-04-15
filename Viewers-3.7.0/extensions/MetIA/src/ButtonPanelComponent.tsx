@@ -30,7 +30,7 @@ const ButtonPanelComponent = ({ servicesManager }) => {
         console.log(data);
         setMessage({ text: 'Operation successful', type: 'success' });
         
-        servicesManager.services.uiNotificationService.publish('SEGMENTATION_COMPLETE', { studyInstanceUID });
+        //servicesManager.services.uiNotificationService.publish('SEGMENTATION_COMPLETE', { studyInstanceUID });
 
       })
       .catch(error => {
