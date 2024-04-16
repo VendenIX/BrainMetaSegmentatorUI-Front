@@ -225,6 +225,15 @@ function WorkList({
     return !isEqual(filterValues, defaultFilterValues);
   };
 
+  const handleDeleteButton = ( /* i: number */ ) => {
+    console.log('Delete button clicked');
+    alert('Delete button clicked');
+
+    //later use the index to delete the row from the table
+    //const studyListTableSize = tableDataSource.length;
+    //console.log('Debug =', tableDataSource);
+  }
+
   const rollingPageNumberMod = Math.floor(101 / resultsPerPage);
   const rollingPageNumber = (pageNumber - 1) % rollingPageNumberMod;
   const offset = resultsPerPage * rollingPageNumber;
@@ -314,7 +323,6 @@ function WorkList({
         },
       ],
       // Todo: This is actually running for all rows, even if they are
-      // not clicked on.
       expandedContent: (
         <StudyListExpandedRow
           seriesTableColumns={{
@@ -386,6 +394,9 @@ function WorkList({
                 )
               );
             })}
+            <div style={{ marginLeft: '40%' }} onClick={handleDeleteButton} /*onClick={() => handleDeleteButton(listNombre.length)}*/ >
+              <img src="assets/trash_can.png" alt="Trash Can Icon" style={{ width: '40px', height: '40px' }} />
+            </div>
           </div>
         </StudyListExpandedRow>
       ),
@@ -478,7 +489,10 @@ function WorkList({
   const { component: dataSourceConfigurationComponent } =
     customizationService.get('ohif.dataSourceConfigurationComponent') ?? {};
 
-    // Définir un état local pour contrôler ce qui est affiché
+  // Définir un état local pour contrôler ce qui est affiché
+  //Si on à des élements dans la liste des études, on affiche la liste des études d'office
+
+  //const [showStudies, setShowStudies] = useState( StudyListTable.length > 1  ? true : false );
   const [showStudies, setShowStudies] = useState(false);
   
     // Fonction pour gérer le clic sur le bouton Test
@@ -568,6 +582,15 @@ function WorkList({
               Liste des études
             </Button>
           </div>
+        </div>
+
+        <div className="flex justify-center pt-2">
+          <div className="btn-width mx-auto">
+            <Button /*onClick={handleButton}*/ >
+              To be defined
+            </Button>
+          </div>
+
         </div>
       </>
 
