@@ -13,6 +13,9 @@ import { useAppConfig } from '@state';
 import StudyUploadPopup from './StudyUploadPopup';
 import filtersMeta from './filtersMeta.js';
 
+// Import du composant ArborescenceComponent
+import ArborescenceComponent from './ArborescenceComponent';
+
 import {
   AboutModal,
   Button,
@@ -489,7 +492,21 @@ function WorkList({
   const handleBackToMenuClick = () => {
     setShowStudies(false); // Modifier l'état pour cacher la liste des études
   };
-  
+
+  // État local pour contrôler l'affichage de la BDD
+  const [showArborescence, setShowArborescence] = useState(false);
+
+  // Fonction pour afficher la table
+const handleShowArborescence = () => {
+  console.log("Affichage de la base de données");
+  setShowArborescence(true);
+};
+
+// Fonction pour masquer la table
+const handleHideArborescence = () => {
+  console.log("Masquage de la base de données");
+  setShowArborescence(false);
+};
 
   return (
     <div className="flex h-screen flex-col bg-black ">
@@ -501,76 +518,92 @@ function WorkList({
         onClickReturnButton={handleBackToMenuClick}
       />
       <div className="flex justify-center items-center">
-      <h1 className="text-4xl font-bold text-blue-500">
-        MetIA
-      </h1>
+        <h1 className="text-4xl font-bold text-blue-500">
+          MetIA
+        </h1>
       </div>
 
       {showStudies ? (
         <div className="ohif-scrollbar flex grow flex-col overflow-y-auto">
           <div className="ohif-scrollbar flex grow flex-col overflow-y-auto">
-        <StudyListFilter
-          numOfStudies={pageNumber * resultsPerPage > 100 ? 101 : numOfStudies}
-          filtersMeta={filtersMeta}
-          filterValues={{ ...filterValues, ...defaultSortValues }}
-          onChange={setFilterValues}
-          clearFilters={() => setFilterValues(defaultFilterValues)}
-          isFiltering={isFiltering(filterValues, defaultFilterValues)}
-          onUploadClick={uploadProps ? () => show(uploadProps) : undefined}
-          getDataSourceConfigurationComponent={
-            dataSourceConfigurationComponent ? () => dataSourceConfigurationComponent() : undefined
-          }
-        />
-        {hasStudies ? (
-          <div className="flex grow flex-col">
-            <StudyListTable
-              tableDataSource={tableDataSource.slice(offset, offsetAndTake)}
-              numOfStudies={numOfStudies}
-              querying={querying}
+            <StudyListFilter
+              numOfStudies={pageNumber * resultsPerPage > 100 ? 101 : numOfStudies}
               filtersMeta={filtersMeta}
+              filterValues={{ ...filterValues, ...defaultSortValues }}
+              onChange={setFilterValues}
+              clearFilters={() => setFilterValues(defaultFilterValues)}
+              isFiltering={isFiltering(filterValues, defaultFilterValues)}
+              onUploadClick={uploadProps ? () => show(uploadProps) : undefined}
+              getDataSourceConfigurationComponent={
+                dataSourceConfigurationComponent ? () => dataSourceConfigurationComponent() : undefined
+              }
             />
-            <div className="grow">
-              <StudyListPagination
-                onChangePage={onPageNumberChange}
-                onChangePerPage={onResultsPerPageChange}
-                currentPage={pageNumber}
-                perPage={resultsPerPage}
-              />
-            </div>
-            <div className="flex justify-center p-5">
+            {hasStudies ? (
+              <div className="flex grow flex-col">
+                <StudyListTable
+                  tableDataSource={tableDataSource.slice(offset, offsetAndTake)}
+                  numOfStudies={numOfStudies}
+                  querying={querying}
+                  filtersMeta={filtersMeta}
+                />
+                <div className="grow">
+                  <StudyListPagination
+                    onChangePage={onPageNumberChange}
+                    onChangePerPage={onResultsPerPageChange}
+                    currentPage={pageNumber}
+                    perPage={resultsPerPage}
+                  />
                 </div>
-          </div>
-          
-        ) : (
-          <div className="flex flex-col items-center justify-center pt-48">
-            {appConfig.showLoadingIndicator && isLoadingData ? (
-              <LoadingIndicatorProgress className={'h-full w-full bg-black'} />
+                <div className="flex justify-center p-5">
+                </div>
+              </div>
+
             ) : (
-              <EmptyStudies />
+              <div className="flex flex-col items-center justify-center pt-48">
+                {appConfig.showLoadingIndicator && isLoadingData ? (
+                  <LoadingIndicatorProgress className={'h-full w-full bg-black'} />
+                ) : (
+                  <EmptyStudies />
+                )}
+              </div>
+
             )}
           </div>
-
-        )}
-      </div>
         </div>
       ) : (
         <>
-        <div className="flex justify-center pt-10">
-          <div className="btn-width mx-auto"> 
-          <StudyUploadPopup onComplete={() => {
-            onRefresh(); 
-        }} />
+          <div className="flex justify-center pt-10">
+            <div className="btn-width mx-auto"> 
+              <StudyUploadPopup onComplete={() => {
+                onRefresh(); 
+            }} />
+            </div>
           </div>
-        </div>
-        <div className="flex justify-center pt-2">
-          <div className="btn-width mx-auto"> 
-            <Button onClick={handleTestButtonClick}>
-              Liste des études
-            </Button>
-          </div>
-        </div>
-      </>
 
+          <div className="flex justify-center pt-2">
+            <div className="btn-width mx-auto"> 
+              <Button onClick={handleTestButtonClick}>
+                Liste des études
+              </Button>
+            </div>
+          </div>
+
+          <div className="flex justify-center pt-2">
+            <div className="btn-width mx-auto"> 
+              <Button onClick={handleShowArborescence}>
+                Afficher la base de données
+              </Button>
+            </div>
+          </div>
+          {/* Ajoutez le console.log ici */}
+          {console.log("Valeur de showArborescence avant le rendu conditionnel:", showArborescence)}
+          {/* Intégration du composant ArborescenceComponent */}
+          <div>
+            {showArborescence && (
+              <ArborescenceComponent />
+            )}
+          </div>
+        </>
       )}
       
     </div>
