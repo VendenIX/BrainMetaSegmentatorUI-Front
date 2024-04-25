@@ -6,6 +6,4 @@ npm i
 npm start
 ```
 
-
-
-
+The back-end for use this front is here : https://github.com/VendenIX/BrainMetaSegmentatorUI-Back
