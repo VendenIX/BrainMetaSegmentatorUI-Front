@@ -5,8 +5,10 @@ import Thumbnail from '../Thumbnail';
 import ThumbnailNoImage from '../ThumbnailNoImage';
 import ThumbnailTracked from '../ThumbnailTracked';
 import * as Types from '../../types';
+import ButtonPanelComponent from '../../../../../extensions/MetIA/src/ButtonPanelComponent';
 
 const ThumbnailList = ({
+  servicesManager,
   thumbnails,
   onThumbnailClick,
   onThumbnailDoubleClick,
@@ -14,98 +16,105 @@ const ThumbnailList = ({
   activeDisplaySetInstanceUIDs = [],
 }) => {
   return (
-    <div
-      id="ohif-thumbnail-list"
-      className="ohif-scrollbar study-min-height overflow-y-hidden bg-black py-3"
-    >
-      {thumbnails.map(
-        ({
-          displaySetInstanceUID,
-          description,
-          dragData,
-          seriesNumber,
-          numInstances,
-          modality,
-          componentType,
-          seriesDate,
-          countIcon,
-          viewportIdentificator,
-          isTracked,
-          canReject,
-          onReject,
-          imageSrc,
-          messages,
-          imageAltText,
-          isHydratedForDerivedDisplaySet,
-        }) => {
-          const isActive = activeDisplaySetInstanceUIDs.includes(displaySetInstanceUID);
-          switch (componentType) {
-            case 'thumbnail':
-              return (
-                <Thumbnail
-                  key={displaySetInstanceUID}
-                  displaySetInstanceUID={displaySetInstanceUID}
-                  dragData={dragData}
-                  description={description}
-                  seriesNumber={seriesNumber}
-                  numInstances={numInstances}
-                  countIcon={countIcon}
-                  imageSrc={imageSrc}
-                  imageAltText={imageAltText}
-                  messages={messages}
-                  viewportIdentificator={viewportIdentificator}
-                  isActive={isActive}
-                  onClick={() => onThumbnailClick(displaySetInstanceUID)}
-                  onDoubleClick={() => onThumbnailDoubleClick(displaySetInstanceUID)}
-                />
-              );
-            case 'thumbnailTracked':
-              return (
-                <ThumbnailTracked
-                  key={displaySetInstanceUID}
-                  displaySetInstanceUID={displaySetInstanceUID}
-                  dragData={dragData}
-                  description={description}
-                  seriesNumber={seriesNumber}
-                  numInstances={numInstances}
-                  countIcon={countIcon}
-                  imageSrc={imageSrc}
-                  imageAltText={imageAltText}
-                  messages={messages}
-                  viewportIdentificator={viewportIdentificator}
-                  isTracked={isTracked}
-                  isActive={isActive}
-                  onClick={() => onThumbnailClick(displaySetInstanceUID)}
-                  onDoubleClick={() => onThumbnailDoubleClick(displaySetInstanceUID)}
-                  onClickUntrack={() => onClickUntrack(displaySetInstanceUID)}
-                />
-              );
-            case 'thumbnailNoImage':
-              return (
-                <ThumbnailNoImage
-                  isActive={isActive}
-                  key={displaySetInstanceUID}
-                  displaySetInstanceUID={displaySetInstanceUID}
-                  dragData={dragData}
-                  modality={modality}
-                  modalityTooltip={_getModalityTooltip(modality)}
-                  messages={messages}
-                  seriesDate={seriesDate}
-                  description={description}
-                  canReject={canReject}
-                  onReject={onReject}
-                  onClick={() => onThumbnailClick(displaySetInstanceUID)}
-                  onDoubleClick={() => onThumbnailDoubleClick(displaySetInstanceUID)}
-                  viewportIdentificator={viewportIdentificator}
-                  isHydratedForDerivedDisplaySet={isHydratedForDerivedDisplaySet}
-                />
-              );
-            default:
-              return <></>;
+    <div>
+      <div
+        id="ohif-thumbnail-list"
+        className="ohif-scrollbar study-min-height overflow-y-hidden bg-black py-3"
+      >
+        {thumbnails.map(
+          ({
+            displaySetInstanceUID,
+            description,
+            dragData,
+            seriesNumber,
+            numInstances,
+            modality,
+            componentType,
+            seriesDate,
+            countIcon,
+            viewportIdentificator,
+            isTracked,
+            canReject,
+            onReject,
+            imageSrc,
+            messages,
+            imageAltText,
+            isHydratedForDerivedDisplaySet,
+          }) => {
+            const isActive = activeDisplaySetInstanceUIDs.includes(displaySetInstanceUID);
+            switch (componentType) {
+              case 'thumbnail':
+                return (
+                  <Thumbnail
+                    key={displaySetInstanceUID}
+                    displaySetInstanceUID={displaySetInstanceUID}
+                    dragData={dragData}
+                    description={description}
+                    seriesNumber={seriesNumber}
+                    numInstances={numInstances}
+                    countIcon={countIcon}
+                    imageSrc={imageSrc}
+                    imageAltText={imageAltText}
+                    messages={messages}
+                    viewportIdentificator={viewportIdentificator}
+                    isActive={isActive}
+                    onClick={() => onThumbnailClick(displaySetInstanceUID)}
+                    onDoubleClick={() => onThumbnailDoubleClick(displaySetInstanceUID)}
+                  />
+                );
+              case 'thumbnailTracked':
+                return (
+                  <ThumbnailTracked
+                    key={displaySetInstanceUID}
+                    displaySetInstanceUID={displaySetInstanceUID}
+                    dragData={dragData}
+                    description={description}
+                    seriesNumber={seriesNumber}
+                    numInstances={numInstances}
+                    countIcon={countIcon}
+                    imageSrc={imageSrc}
+                    imageAltText={imageAltText}
+                    messages={messages}
+                    viewportIdentificator={viewportIdentificator}
+                    isTracked={isTracked}
+                    isActive={isActive}
+                    onClick={() => onThumbnailClick(displaySetInstanceUID)}
+                    onDoubleClick={() => onThumbnailDoubleClick(displaySetInstanceUID)}
+                    onClickUntrack={() => onClickUntrack(displaySetInstanceUID)}
+                  />
+                );
+              case 'thumbnailNoImage':
+                return (
+                  <ThumbnailNoImage
+                    isActive={isActive}
+                    key={displaySetInstanceUID}
+                    displaySetInstanceUID={displaySetInstanceUID}
+                    dragData={dragData}
+                    modality={modality}
+                    modalityTooltip={_getModalityTooltip(modality)}
+                    messages={messages}
+                    seriesDate={seriesDate}
+                    description={description}
+                    canReject={canReject}
+                    onReject={onReject}
+                    onClick={() => onThumbnailClick(displaySetInstanceUID)}
+                    onDoubleClick={() => onThumbnailDoubleClick(displaySetInstanceUID)}
+                    viewportIdentificator={viewportIdentificator}
+                    isHydratedForDerivedDisplaySet={isHydratedForDerivedDisplaySet}
+                  />
+                );
+              default:
+                return <></>;
+            }
           }
-        }
-      )}
+        )}
+
+        <ButtonPanelComponent 
+          servicesManager={servicesManager} 
+        />
+      </div>
     </div>
+
   );
 };
 

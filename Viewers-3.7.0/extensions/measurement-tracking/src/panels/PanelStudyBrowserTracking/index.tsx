@@ -32,14 +32,14 @@ function WrappedPanelStudyBrowserTracking({ commandsManager, extensionManager, s
     dataSource
   );
 
-  return (
-    <PanelStudyBrowserTracking
-      servicesManager={servicesManager}
-      dataSource={dataSource}
-      getImageSrc={_getImageSrcFromImageId}
-      getStudiesForPatientByMRN={_getStudiesForPatientByMRN}
-      requestDisplaySetCreationForStudy={_requestDisplaySetCreationForStudy}
-    />
+  return (      
+      <PanelStudyBrowserTracking
+        servicesManager={servicesManager}
+        dataSource={dataSource}
+        getImageSrc={_getImageSrcFromImageId}
+        getStudiesForPatientByMRN={_getStudiesForPatientByMRN}
+        requestDisplaySetCreationForStudy={_requestDisplaySetCreationForStudy}
+      />
   );
 }
 
