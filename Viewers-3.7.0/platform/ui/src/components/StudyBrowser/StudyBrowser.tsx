@@ -55,6 +55,7 @@ const StudyBrowser = ({
             />
             {isExpanded && displaySets && (
               <ThumbnailList
+                servicesManager={servicesManager}
                 thumbnails={displaySets}
                 activeDisplaySetInstanceUIDs={activeDisplaySetInstanceUIDs}
                 onThumbnailClick={onClickThumbnail}

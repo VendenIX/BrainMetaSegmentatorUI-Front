@@ -40,33 +40,11 @@ const ButtonPanelComponent = ({ servicesManager }) => {
     }
   };
 
-  const performDeleteInstance = () => {
-    const hangingProtocolService = servicesManager.services.HangingProtocolService;
-    if (hangingProtocolService && hangingProtocolService.activeStudy) {
-      const studyInstanceUID = hangingProtocolService.activeStudy.StudyInstanceUID;
-
-      fetch(`http://localhost:5000/delete-dicom-instance/${studyInstanceUID}`, {
-        method: 'DELETE',
-      })
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-        setMessage({ text: 'DICOM instance deleted successfully', type: 'success' });
-      })
-      .catch(error => {
-        console.error('There was an error during the deletion process:', error);
-        setMessage({ text: 'Failed to delete DICOM instance', type: 'error' });
-      });
-    }
-  };
 
 
   return (
     <div className="text-white w-full text-center">
       <SegmentationButton onSegmentation={performSegmentation} />
-      <button onClick={performDeleteInstance} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-        Delete DICOM Instance
-      </button>
       {message.text && (
         <div style={{ color: message.type === 'success' ? 'green' : 'red' }}>
           {message.text}

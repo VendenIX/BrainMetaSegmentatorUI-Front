@@ -1,13 +1,15 @@
 import React from 'react';
+import { Button } from '@ohif/ui';
+
 
 const SegmentationButton = ({ onSegmentation }) => {
   return (
-    <button
+    <Button
       className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
       onClick={onSegmentation}
     >
-      Perform Segmentation and Upload RTStruct
-    </button>
+      Perform MetIA Segmentation
+    </Button>
   );
 };
 

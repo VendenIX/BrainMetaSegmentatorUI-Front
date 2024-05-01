@@ -55,7 +55,6 @@ const extensionDependencies = {
   '@ohif/extension-cornerstone-dicom-rt': '^3.0.0',
   '@ohif/extension-dicom-pdf': '^3.0.1',
   '@ohif/extension-dicom-video': '^3.0.1',
-  'MetIA': '^0.0.1',
 };
 
 function modeFactory({ modeConfiguration }) {
@@ -195,7 +194,7 @@ function modeFactory({ modeConfiguration }) {
             id: ohif.layout,
             props: {
               leftPanels: [tracked.thumbnailList],
-              rightPanels: [dicomSeg.panel, tracked.measurements,'MetIA.panelModule.buttonPanel'],
+              rightPanels: [dicomSeg.panel, tracked.measurements],
               rightPanelDefaultClosed: true,
               viewports: [
                 {
