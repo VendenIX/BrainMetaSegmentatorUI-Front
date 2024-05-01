@@ -27,7 +27,8 @@ import {
   StudyListTable,
   TooltipClipboard,
   UserPreferences,
-  useModal
+  useModal,
+  ButtonGroup
 } from '@ohif/ui';
 
 import i18n from '@ohif/i18n';
@@ -480,15 +481,37 @@ function WorkList({
 
     // Définir un état local pour contrôler ce qui est affiché
   const [showStudies, setShowStudies] = useState(false);
+
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
   
     // Fonction pour gérer le clic sur le bouton Test
-  const handleTestButtonClick = () => {
-      setShowStudies(true); // Modifier l'état pour afficher la liste des études
+  const handleStudyButtonClick = () => {
+      setShowStudies(true);
   };
 
   const handleBackToMenuClick = () => {
-    setShowStudies(false); // Modifier l'état pour cacher la liste des études
+    setShowStudies(false); 
   };
+
+  const handleUploadComplete = () => {
+    setShowStudies(true);  
+    setIsPopupOpen(false);
+  };
+
+  const handleOpenUploadPopup = () => {
+    setIsPopupOpen(true);
+  };
+
+  const buttons = [
+    {
+      children: 'Liste des études',
+      onClick: handleStudyButtonClick
+    },
+    {
+      children: 'Ajouter des études',
+      onClick: handleOpenUploadPopup
+    }
+  ];
   
 
   return (
@@ -555,20 +578,12 @@ function WorkList({
         </div>
       ) : (
         <>
-        <div className="flex justify-center pt-10">
-          <div className="btn-width mx-auto"> 
-          <StudyUploadPopup onComplete={() => {
-            onRefresh(); 
-        }} />
-          </div>
-        </div>
-        <div className="flex justify-center pt-2">
-          <div className="btn-width mx-auto"> 
-            <Button onClick={handleTestButtonClick}>
-              Liste des études
-            </Button>
-          </div>
-        </div>
+          <ButtonGroup buttons={buttons} className="mx-auto" />
+          <StudyUploadPopup
+            isOpen={isPopupOpen}
+            onClose={() => setIsPopupOpen(false)}
+            onComplete={handleUploadComplete}
+          />
       </>
 
       )}
