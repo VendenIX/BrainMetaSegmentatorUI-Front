@@ -32,6 +32,7 @@ import {
 } from '@ohif/ui';
 
 import i18n from '@ohif/i18n';
+import { on } from 'i18next';
 
 const { sortBySeriesDate } = utils;
 
@@ -510,6 +511,12 @@ function WorkList({
     {
       children: 'Ajouter des études',
       onClick: handleOpenUploadPopup
+    },
+    {
+      children: 'Suivi des patients',
+      onClick: () => {
+        navigate('/tracking');
+      }
     }
   ];
   
