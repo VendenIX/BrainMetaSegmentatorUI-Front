@@ -12,6 +12,8 @@ import buildModeRoutes from './buildModeRoutes';
 import PrivateRoute from './PrivateRoute';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import TrackingPage from '../../../../extensions/MetIA/src/TrackingPage';
+
 
 const NotFoundServer = ({
   message = 'Unable to query for studies at this time. Check your data source configuration or network connection',
@@ -74,6 +76,10 @@ const bakedInRoutes = [
     path: '/localbasic',
     children: Local.bind(null, { modePath: 'viewer/dicomlocal' }),
   },
+  //{
+  //  path: '/tracking',
+  //  children: TrackingPage,
+ // }
 ];
 
 // NOT FOUND (404)
@@ -108,10 +114,22 @@ const createRoutes = ({
     props: { children: WorkList, servicesManager, extensionManager },
   };
 
+  const TrackingPageRoute = {
+    path: '/tracking',
+    children: TrackingPage,
+    props: { 
+      servicesManager, 
+      extensionManager, 
+      hotkeysManager, 
+      dataSource: dataSources.default 
+    }
+  };
+
   const customRoutes = customizationService.getGlobalCustomization('customRoutes');
   const allRoutes = [
     ...routes,
     ...(showStudyList ? [WorkListRoute] : []),
+    TrackingPageRoute,
     ...(customRoutes?.routes || []),
     ...bakedInRoutes,
     customRoutes?.notFoundRoute || notFoundRoute,
