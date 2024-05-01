@@ -70,6 +70,7 @@ module.exports = (env, argv) => {
         path.resolve(__dirname, '../../../node_modules'),
         SRC_DIR,
         path.resolve(__dirname, 'extensions/MetIA/node_modules'),
+        path.resolve(__dirname, 'modes/tracking/node_modules'),
       ],
     },
     plugins: [
