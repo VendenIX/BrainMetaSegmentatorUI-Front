@@ -551,6 +551,12 @@ const onConfirmDeletion = async () => {
   };
 
   const handleUploadComplete = () => {
+
+    // Mets à jour la liste des études
+    setStudiesWithSeriesData([]);
+    setExpandedRows([]);
+    onRefresh();
+
     setShowStudies(true);  
     setIsPopupOpen(false);
   };
