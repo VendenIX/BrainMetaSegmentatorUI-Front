@@ -261,7 +261,7 @@ const onConfirmDeletion = async () => {
         isOpen: true,
         isProcessing: false,
         isFinished: true,
-        message: 'Étude supprimée avec succès. yeah'
+        message: 'Étude supprimée avec succès.'
       });
     } catch (error) {
       setConfirmPopup({

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import SegmentationButton from './SegmentationButton';
 
 const ButtonPanelComponent = ({ servicesManager }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState({ text: '', type: '' });
 
   useEffect(() => {
@@ -18,7 +19,7 @@ const ButtonPanelComponent = ({ servicesManager }) => {
     const hangingProtocolService = servicesManager.services.HangingProtocolService;
     if (hangingProtocolService && hangingProtocolService.activeStudy) {
       const studyInstanceUID = hangingProtocolService.activeStudy.StudyInstanceUID;
-
+      setIsLoading(true);
       fetch(`http://localhost:5000/segmentation/${studyInstanceUID}`, {
         method: 'POST',
         headers: {
@@ -31,11 +32,12 @@ const ButtonPanelComponent = ({ servicesManager }) => {
         setMessage({ text: 'Operation successful', type: 'success' });
 
         //servicesManager.services.uiNotificationService.publish('SEGMENTATION_COMPLETE', { studyInstanceUID });
-
+        setIsLoading(false);
       })
       .catch(error => {
         console.error('There was an error during segmentation or RTStruct upload:', error);
         setMessage({ text: 'Failed to complete segmentation or RTStruct upload', type: 'error' });
+        setIsLoading(false);
       });
     }
   };
@@ -44,7 +46,7 @@ const ButtonPanelComponent = ({ servicesManager }) => {
 
   return (
     <div className="text-white w-full text-center">
-      <SegmentationButton onSegmentation={performSegmentation} />
+      <SegmentationButton onSegmentation={performSegmentation} isLoading={isLoading} />
       {message.text && (
         <div style={{ color: message.type === 'success' ? 'green' : 'red' }}>
           {message.text}
