@@ -11,6 +11,7 @@ import { useDebounce, useSearchParams } from '@hooks';
 import { ServicesManager, hotkeys, utils } from '@ohif/core';
 import { useAppConfig } from '@state';
 import StudyUploadPopup from './StudyUploadPopup';
+import ConfirmDeletionPopup from './ConfirmDeletionPopup';
 import filtersMeta from './filtersMeta.js';
 
 import {
@@ -227,6 +228,53 @@ function WorkList({
     return !isEqual(filterValues, defaultFilterValues);
   };
 
+
+const [confirmPopup, setConfirmPopup] = useState({
+    isOpen: false,
+    isProcessing: false,
+    isFinished: false,
+    message: ''
+  });
+
+  const handleDelete = () => {
+    setConfirmPopup({
+      isOpen: true,
+      isProcessing: false,
+      isFinished: false,
+      message: 'Êtes-vous sûr de vouloir supprimer cette étude ? Cette action est irréversible.'
+    });
+  };
+
+
+const onConfirmDeletion = async () => {
+    setConfirmPopup(current => ({ ...current, isProcessing: true, message: 'Suppression en cours...' }));
+    try {
+      const response = await fetch(`http://localhost:5000/delete-study/${studiesWithSeriesData.toString()}`, { method: 'DELETE' });
+      if (!response.ok) throw new Error('Failed to delete the study');
+
+      // Update the studies list
+      setStudiesWithSeriesData([]);
+      setExpandedRows([]);
+      onRefresh();
+
+      setConfirmPopup({
+        isOpen: true,
+        isProcessing: false,
+        isFinished: true,
+        message: 'Étude supprimée avec succès. yeah'
+      });
+    } catch (error) {
+      setConfirmPopup({
+        isOpen: true,
+        isProcessing: false,
+        isFinished: true,
+        message: `Erreur lors de la suppression de l’étude: ${error.message}`
+      });
+    }
+  };
+  
+  
+
   const rollingPageNumberMod = Math.floor(101 / resultsPerPage);
   const rollingPageNumber = (pageNumber - 1) % rollingPageNumberMod;
   const offset = resultsPerPage * rollingPageNumber;
@@ -388,6 +436,14 @@ function WorkList({
                 )
               );
             })}
+
+              <Icon
+                name="old-trash"
+                style={{ minWidth: '12px', cursor: 'pointer' }}
+                className="ml-4 w-3 text-red-500"
+                onClick={handleDelete}
+              />
+
           </div>
         </StudyListExpandedRow>
       ),
@@ -594,7 +650,14 @@ function WorkList({
       </>
 
       )}
-      
+        <ConfirmDeletionPopup
+            isOpen={confirmPopup.isOpen}
+            onClose={() => setConfirmPopup({ ...confirmPopup, isOpen: false })}
+            onConfirm={onConfirmDeletion}
+            message={confirmPopup.message}
+            isProcessing={confirmPopup.isProcessing}
+            isFinished={confirmPopup.isFinished}
+        />
     </div>
   );
 }
