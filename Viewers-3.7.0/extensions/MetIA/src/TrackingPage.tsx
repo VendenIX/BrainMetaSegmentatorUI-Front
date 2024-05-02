@@ -30,6 +30,8 @@ const TrackingPage = ({ servicesManager, extensionManager, hotkeysManager }) => 
     const { t } = useTranslation();
     const hotkeyDefinitions = hotkeysManager.getValidHotkeyDefinitions();
     const currentLanguage = i18n.language;
+    const versionNumber = process.env.VERSION_NUMBER;
+    const commitHash = process.env.COMMIT_HASH;
     const [appConfig] = useAppConfig();
     const menuOptions = [
       {
@@ -39,7 +41,7 @@ const TrackingPage = ({ servicesManager, extensionManager, hotkeysManager }) => 
           show({
             content: AboutModal,
             title: 'About OHIF Viewer',
-            contentProps: { versionNumber: '1.0', commitHash: 'abc123' }, // Ces valeurs devraient être dynamiquement récupérées si disponibles
+            contentProps: { versionNumber: versionNumber, commitHash: commitHash },
           }),
       },
       {
