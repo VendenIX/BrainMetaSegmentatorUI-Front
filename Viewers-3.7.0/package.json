@@ -1,6 +1,7 @@
 {
   "name": "ohif-monorepo-root",
   "private": true,
+  "proxy": "http://localhost:5000",
   "workspaces": {
     "packages": [
       "platform/*",
