@@ -23,6 +23,10 @@ import {
 } from '@ohif/ui';
 
 import i18n from '@ohif/i18n';
+import PatientList from './PatientList';
+import StudyList from './StudyList';
+import MetastasisList from './MetastasisList';
+
 
 const TrackingPage = ({ servicesManager, extensionManager, hotkeysManager }) => {
     const { show, hide } = useModal();
@@ -81,67 +85,23 @@ const TrackingPage = ({ servicesManager, extensionManager, hotkeysManager }) => 
     });
   }
 
-  const API_URL = 'http://localhost:5000';
-
-// Récupérer toutes les études
-  const getEtudes = () => {
-    console.log("getEtudes");
-    return fetch(`${API_URL}/followup-etudes`)
-        .then(response => response.json())
-        .catch(error => console.error(`Erreur lors de la récupération des études : ${error}`));
-};
-
-
-// Récupérer toutes les études d'un patient
-  const getEtudesFromPatient = (idPatient) => {
-    console.log(`Fetching studies for patient ${idPatient}...`);
-    return fetch(`${API_URL}/followup-etudes?idPatient=${idPatient}`)
-        .then(response => response.json())
-        .then(data => {
-            console.log(`Studies for patient ${idPatient} retrieved:`, data);
-            return data;
-        })
-        .catch(error => console.error(`Error fetching studies for patient ${idPatient}: ${error}`));
-}
-
-
-// Récupérer toutes les métastases d'une étude
-const getMetastasesFromEtude = (idEtude) => {
-  console.log(`Fetching metastases for study ${idEtude}...`);
-  return fetch(`${API_URL}/followup-metastases?idEtude=${idEtude}`)
-      .then(response => response.json())
-      .then(data => {
-          console.log(`Metastases for study ${idEtude} retrieved:`, data);
-          return data;
-      })
-      .catch(error => console.error(`Error fetching metastases for study ${idEtude}: ${error}`));
-};
-
-// Récupérer toutes les informations des patients
-const getPatients = () => {
-  console.log("Fetching patients...");
-  return fetch(`${API_URL}/followup-patients`)
-      .then(response => response.json())
-      .then(data => {
-          console.log("Patients retrieved:", data);
-          return data;
-      })
-      .catch(error => console.error(`Error fetching patients: ${error}`));
-};
+const [selectedPatient, setSelectedPatient] = useState(null);
+const [selectedStudy, setSelectedStudy] = useState(null);
 
   return (
     <div className="flex h-screen flex-col">
-      <Header
-        isSticky
-        menuOptions={menuOptions}
-        isReturnEnabled={true}
-        onClickReturnButton={() => navigate('/')}
-      />
-      <div className="tracking-page p-4">
-        <h1 className="text-xl font-bold">Tracking Page</h1>
-        <p>This is the tracking page for our application.</p>
-        <Button onClick={() => console.log(getMetastasesFromEtude(3))}>Click me</Button>
-      </div>
+        <Header
+          isSticky
+          menuOptions={menuOptions}
+          isReturnEnabled={true}
+          onClickReturnButton={() => navigate('/')}
+        />
+        <div className="tracking-page">
+          <PatientList onSelectPatient={setSelectedPatient} />
+          {selectedPatient && <StudyList onSelectedStudy={setSelectedStudy} patient={selectedPatient} />}
+          {selectedStudy && <MetastasisList study={selectedStudy} />}
+        </div>
+
     </div>
   );
 };
