@@ -1,6 +1,10 @@
 
 .Caroussel-aff {
     margin: 3em;
+    background-color: #020327;
+    border-radius: 2em;
+    padding: 2em;
+    border: solid 1px rgb(90,204,230);
 }
 
 .buttons {
@@ -25,8 +29,8 @@
     color:rgba(90,204,230,255);
 }
 .caroussel:focus {
-    color: rgba(90,204,230,255);
-    text-decoration: underline rgba(90,204,230,255) 2px;
+    color: rgb(90,204,230);
+    text-decoration: underline rgb(90,204,230) 2px;
 }
 
 .images {
@@ -61,17 +65,7 @@
     height: auto;
 }
 
-#im2 {
-    max-width: 45%;
-    height: auto;
-}
-
-#im3 {
-    max-width: 45%;
-    height: auto;
-}
-
-#im4 {
+#im2, #im3, #im4, #im5 {
     max-width: 45%;
     height: auto;
 }

@@ -39,6 +39,10 @@ function Caroussel() {
           Exportation des données
         </button>
 
+        <button className='caroussel' onClick={() => handleClick('im5')}>
+          Suivi des patients
+        </button>
+
       </div>
 
       <div className="images">
@@ -85,6 +89,18 @@ function Caroussel() {
               id="im4"
               src="img_demo/interface_export.png"
               alt="Exportation des données demo"
+            />
+          </div>
+          
+        )}
+
+        {activeImage === 'im5' && (
+          <div className='demo'>
+            <p className='ex'> Pour afficher le suivi des patients, vous pouvez vous rendre sur l'onglet <b className='mono'>Suivi des patients</b> où la liste des patients vous sera affichée. Un clic sur un patient permet de détailler les études réalisées à son sujet.</p>
+            <img 
+              id="im5" 
+              src="img_demo/interface_liste_patients.png" 
+              alt="Suivi des patients demo" 
             />
           </div>
           
