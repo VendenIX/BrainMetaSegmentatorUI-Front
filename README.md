@@ -24,7 +24,7 @@ npm i
 npm start
 ```
 
-Si vous avez des problèmes avec npm, vous pouvez faire **yarn install** au lieu de npm start.
+Si vous avez des problèmes avec npm, vous pouvez faire **yarn install** au lieu de npm install.
 
 
 ## Démonstration
