@@ -33,6 +33,8 @@ Vous pouvez voir une démonstration de l'utilisation de l'interface dans le GIF 
 
 ![Démonstration du projet](images_readme/demo.gif)
 
+Vidéo complète ici : https://www.youtube.com/watch?v=PkEinJDBh0A
+
 ## Fonctionnalités
 
 - **Ajout et suppression d'études** : Ajoutez et supprimez facilement des études DICOM via l'interface.
