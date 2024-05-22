@@ -12,6 +12,7 @@ import { ServicesManager, hotkeys, utils } from '@ohif/core';
 import { useAppConfig } from '@state';
 import StudyUploadPopup from './StudyUploadPopup';
 import ConfirmDeletionPopup from './ConfirmDeletionPopup';
+import Caroussel from './Caroussel';
 import filtersMeta from './filtersMeta.js';
 
 import {
@@ -593,8 +594,9 @@ const onConfirmDeletion = async () => {
         onClickReturnButton={handleBackToMenuClick}
       />
       <div className="flex justify-center items-center">
-      <h1 className="text-4xl font-bold text-blue-500">
-        MetIA
+      <h1 className="text-4xl font-bold text-blue-500 flex justify-center">
+        <img src="logo/MetIA.png" alt="MetIA" style={{maxWidth : "27%", height : "auto"}} />
+
       </h1>
       </div>
 
@@ -653,6 +655,9 @@ const onConfirmDeletion = async () => {
             onClose={() => setIsPopupOpen(false)}
             onComplete={handleUploadComplete}
           />
+
+          <Caroussel />
+
       </>
 
       )}

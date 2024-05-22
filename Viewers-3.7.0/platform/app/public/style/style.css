@@ -1,0 +1,77 @@
+
+.Caroussel-aff {
+    margin: 3em;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-evenly;
+    align-content: center;
+}
+
+
+.caroussel {
+    transition: all ease-in-out 1s;
+    text-decoration: none;
+    background-color: transparent;
+    border: none;
+    color: rgba(135,135,135,255);
+    outline: none;
+    font-weight: bolder;
+    font-size:medium
+}
+
+.caroussel:hover {
+    color:rgba(90,204,230,255);
+}
+.caroussel:focus {
+    color: rgba(90,204,230,255);
+    text-decoration: underline rgba(90,204,230,255) 2px;
+}
+
+.images {
+    color: white;
+    margin: 1.5em;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+
+.demo {
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    margin: 1em;
+}
+
+.ex {
+    color: rgb(199, 227, 238);
+    margin: 1em;
+    padding: 1em;
+}
+
+.mono {
+    font-family: monospace;
+}
+
+
+#im1 {
+    max-width: 78%;
+    height: auto;
+}
+
+#im2 {
+    max-width: 45%;
+    height: auto;
+}
+
+#im3 {
+    max-width: 45%;
+    height: auto;
+}
+
+#im4 {
+    max-width: 45%;
+    height: auto;
+}
