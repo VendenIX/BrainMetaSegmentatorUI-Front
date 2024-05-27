@@ -13,15 +13,15 @@ Ce projet est séparé en deux parties :
 | Ressource              | Requis                                                 |
 |------------------------|--------------------------------------------------------|
 | Node.js                | Version 14 ou supérieure                               |
-| npm                    | Version 6 ou supérieure                                |
+| npm ou yarn            | Version 6 ou supérieure                                |
 
 ## Installation et Lancement
 
 Pour lancer la partie front-end, il faut se placer dans le dossier front-end et lancer les commandes suivantes:
 ```
 #Se placer dans le répertoire Viewers-3.7.0
-npm i
-npm start
+npm i  ou yarn i
+npm start ou yarn start
 ```
 
 Si vous avez des problèmes avec npm, vous pouvez faire **yarn install** au lieu de npm install.
