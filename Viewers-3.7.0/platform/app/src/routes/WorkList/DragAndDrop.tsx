@@ -1,6 +1,6 @@
-import React, { useRef } from 'react';
+import React, { useRef , useEffect} from 'react';
 
-const DragAndDrop = ({ onDrop }) => {
+const DragAndDrop = ({ onDrop , isUploading}) => {
   const fileInputRef = useRef(null);
 
   const handleDrop = (e) => {
@@ -29,9 +29,10 @@ const DragAndDrop = ({ onDrop }) => {
 
   return (
     <div className="text-center">
-      <button 
-        onClick={handleClick} 
-        className="mb-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+      <button
+        onClick={handleClick}
+        className={`mb-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ${isUploading ? 'opacity-50 cursor-not-allowed' : ''}`}
+        disabled={isUploading} // Désactive le bouton pendant l'upload
       >
         Sélectionner des fichiers
       </button>
@@ -41,9 +42,10 @@ const DragAndDrop = ({ onDrop }) => {
         multiple
         style={{ display: 'none' }}
         onChange={handleChange}
+        disabled={isUploading} // Désactive l'input pendant l'upload
       />
       <div
-        className="border-2 border-dashed border-gray-300 p-10"
+        className={`border-2 border-dashed border-gray-300 p-10 ${isUploading ? 'opacity-50' : ''}`}
         onDrop={handleDrop}
         onDragOver={handleDragOver}
       >

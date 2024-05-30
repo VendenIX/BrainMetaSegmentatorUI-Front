@@ -3,7 +3,7 @@ import isEqual from 'lodash.isequal';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import qs from 'query-string';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 //
@@ -196,6 +196,15 @@ function WorkList({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedFilterValues]);
 
+  const isMounted = useRef(true);
+
+  useEffect(() => {
+    isMounted.current = true;
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
+
   // Query for series information
   useEffect(() => {
     const fetchSeries = async studyInstanceUid => {
@@ -205,6 +214,7 @@ function WorkList({
         setStudiesWithSeriesData([...studiesWithSeriesData, studyInstanceUid]);
       } catch (ex) {
         // TODO: UI Notification Service
+        console.log("Problème dans l'update !");
         console.warn(ex);
       }
     };
@@ -273,8 +283,8 @@ const onConfirmDeletion = async () => {
       });
     }
   };
-  
-  
+
+
 
   const rollingPageNumberMod = Math.floor(101 / resultsPerPage);
   const rollingPageNumber = (pageNumber - 1) % rollingPageNumberMod;
@@ -541,24 +551,23 @@ const onConfirmDeletion = async () => {
   const [showStudies, setShowStudies] = useState(false);
 
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  
+
     // Fonction pour gérer le clic sur le bouton Test
   const handleStudyButtonClick = () => {
       setShowStudies(true);
   };
 
   const handleBackToMenuClick = () => {
-    setShowStudies(false); 
+    setShowStudies(false);
   };
 
-  const handleUploadComplete = () => {
+  const handleUploadComplete = async () => {
 
     // Mets à jour la liste des études
+    onRefresh();
     setStudiesWithSeriesData([]);
     setExpandedRows([]);
-    onRefresh();
-
-    setShowStudies(true);  
+    setShowStudies(true);
     setIsPopupOpen(false);
   };
 
@@ -582,7 +591,12 @@ const onConfirmDeletion = async () => {
       }
     }
   ];
-  
+
+  const onHandleclose = () => {
+    onRefresh();
+    setIsPopupOpen(false);
+  }
+
 
   return (
     <div className="flex h-screen flex-col bg-black ">
@@ -634,7 +648,7 @@ const onConfirmDeletion = async () => {
             <div className="flex justify-center p-5">
                 </div>
           </div>
-          
+
         ) : (
           <div className="flex flex-col items-center justify-center pt-48">
             {appConfig.showLoadingIndicator && isLoadingData ? (
@@ -652,7 +666,7 @@ const onConfirmDeletion = async () => {
           <ButtonGroup buttons={buttons} className="mx-auto" />
           <StudyUploadPopup
             isOpen={isPopupOpen}
-            onClose={() => setIsPopupOpen(false)}
+            onClose={() => onHandleclose()}
             onComplete={handleUploadComplete}
           />
 
