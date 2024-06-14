@@ -369,8 +369,22 @@ const commandsModule = ({
      * cornerstone tool adapter to convert to DICOM RTSS format. It then
      * converts dataset to downloadable blob.
      *
-     */
-    downloadRTSS: ({ segmentationId }) => {
+    */
+      downloadRTSS: async ({ segmentationId }) => {
+        try {
+      const hangingProtocolService = servicesManager.services.displaySetService.activeDisplaySets;
+      let rtstruct_instanceuid = null;
+      for (let i = 0; i < hangingProtocolService.length; i++) {
+        if (hangingProtocolService[i].Modality == "RTSTRUCT") {
+          rtstruct_instanceuid = hangingProtocolService[i].SOPInstanceUID;
+        }
+      }
+      if(rtstruct_instanceuid == null) {
+        console.log("Aucun RTSTRUCT trouvé");
+        return;
+      }
+      console.log(rtstruct_instanceuid);
+      /*
       const segmentations = segmentationService.getSegmentation(segmentationId);
       const vtkUtils = {
         vtkImageMarchingSquares,
@@ -386,7 +400,6 @@ const commandsModule = ({
         cornerstoneToolsEnums,
         vtkUtils
       );
-
       try {
         const reportBlob = datasetToBlob(RTSS);
 
@@ -397,8 +410,147 @@ const commandsModule = ({
         console.warn(e);
       }
     },
-  };
+  };*/
+      // URL de l'API Orthanc pour effectuer la recherche
+      const orthancLookupUrl = `http://localhost:8080/tools/lookup`;
 
+      // Effectuer la requête POST pour obtenir l'ID Orthanc
+      const response = await fetch(orthancLookupUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'text/plain',
+        },
+        body: rtstruct_instanceuid,
+      });
+
+      if (!response.ok) {
+        throw new Error(`Erreur lors de la recherche de l'ID Orthanc: ${response.statusText}`);
+      }
+
+      const result = await response.json();
+      if (!result || result.length === 0) {
+        throw new Error('Aucune étude correspondante trouvée pour le StudyInstanceUID fourni');
+      }
+      console.log("result :", result);
+      // Supposons que la première correspondance est celle souhaitée
+      const orthancId = result[0].ID;
+      if (!orthancId) {
+        throw new Error('Aucun ID Orthanc trouvé pour le StudyInstanceUID fourni');
+      }
+
+      console.log("Orthanc ID:", orthancId);
+
+      // URL de l'API Orthanc pour récupérer le RTSTRUCT
+      const orthancUrl = `http://localhost:8080/instances/${orthancId}/file`;
+      console.log("orthancUrl :", orthancUrl);
+      // Effectuer la requête pour récupérer le RTSTRUCT
+      const responseOrthanc = await fetch(orthancUrl, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/dicom',
+        },
+      });
+
+      if (!responseOrthanc.ok) {
+        throw new Error(`Erreur lors du téléchargement du RTSTRUCT: ${responseOrthanc.statusText}`);
+      }
+
+      const blob = await responseOrthanc.blob();
+
+      // Créer une URL pour le RTSTRUCT binaire et initier le téléchargement
+      const objectUrl = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = objectUrl;
+      link.download = 'RTSTRUCT.dcm';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+    } catch (e) {
+      console.error('Erreur:', e);
+    }
+  },
+};
+/*
+//ok donc 8080 et pas 8042 pour le proxy sinon c'est bloqué par les cors et sinon c'est pas l'instance uid de l'étude qu'il faut que je passe masi l'instance uid du rtstruct donc la problématique c'est de trouver ocmment l'obtenir
+downloadRTSS: async ({ segmentationId }) => {
+  try {
+    console.log("Je t'ai trouvé enfin");
+    console.log("segmentationId :", segmentationId);
+
+    // Récupérer le StudyInstanceUID
+    let StudyInstanceUID;
+    const hangingProtocolService = servicesManager.services.HangingProtocolService;
+    if (hangingProtocolService && hangingProtocolService.activeStudy) {
+      StudyInstanceUID = hangingProtocolService.activeStudy.StudyInstanceUID;
+    } else {
+      console.log("No active study");
+      throw new Error("No active study");
+    }
+
+    console.log("StudyInstanceUID:", StudyInstanceUID);
+
+    // URL de l'API Orthanc pour effectuer la recherche
+    const orthancLookupUrl = `http://localhost:8042/tools/lookup`;
+
+    // Effectuer la requête POST pour obtenir l'ID Orthanc
+    const response = await fetch(orthancLookupUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'text/plain',
+      },
+      body: StudyInstanceUID,
+    });
+
+    if (!response.ok) {
+      throw new Error(`Erreur lors de la recherche de l'ID Orthanc: ${response.statusText}`);
+    }
+
+    const result = await response.json();
+    if (!result || result.length === 0) {
+      throw new Error('Aucune étude correspondante trouvée pour le StudyInstanceUID fourni');
+    }
+
+    // Supposons que la première correspondance est celle souhaitée
+    const orthancId = result[0].ID;
+    if (!orthancId) {
+      throw new Error('Aucun ID Orthanc trouvé pour le StudyInstanceUID fourni');
+    }
+
+    console.log("Orthanc ID:", orthancId);
+
+    // URL de l'API Orthanc pour récupérer le RTSTRUCT
+    const orthancUrl = `http://localhost:8042/instances/${orthancId}/file`;
+
+    // Effectuer la requête pour récupérer le RTSTRUCT
+    const responseOrthanc = await fetch(orthancUrl, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/dicom',
+      },
+    });
+
+    if (!responseOrthanc.ok) {
+      throw new Error(`Erreur lors du téléchargement du RTSTRUCT: ${responseOrthanc.statusText}`);
+    }
+
+    const blob = await responseOrthanc.blob();
+
+    // Créer une URL pour le RTSTRUCT binaire et initier le téléchargement
+    const objectUrl = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = objectUrl;
+    link.download = 'RTSTRUCT.dcm';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+  } catch (e) {
+    console.error('Erreur:', e);
+  }
+},
+};
+*/
   const definitions = {
     getUpdatedViewportsForSegmentation: {
       commandFn: actions.getUpdatedViewportsForSegmentation,

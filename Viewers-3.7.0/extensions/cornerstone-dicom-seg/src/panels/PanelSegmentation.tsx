@@ -62,6 +62,7 @@ export default function PanelSegmentation({
   };
 
   const onSegmentationDelete = (segmentationId: string) => {
+    
     segmentationService.remove(segmentationId);
   };
 
