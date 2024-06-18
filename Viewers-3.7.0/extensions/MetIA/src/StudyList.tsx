@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-function StudyList({ onSelectedStudy ,patient }) {
+function StudyList({ onSelectedStudy, patient }) {
   const [studies, setStudies] = useState([]);
 
   useEffect(() => {
@@ -14,24 +14,22 @@ function StudyList({ onSelectedStudy ,patient }) {
 
   return (
     <div style={styles.container}>
-      {console.log("iCICICICICIi", studies)}
       <h1 style={styles.title}>Études de {patient.name}</h1>
       <table style={styles.table}>
         <thead>
           <tr>
-            <th style={styles.header}>SOP</th>
+            <th style={styles.header}>Study Instance UID</th>
             <th style={styles.header}>Date de l'Étude</th>
           </tr>
         </thead>
         <tbody>
           {studies.map(study => (
-            <tr key={study.id} style={styles.row} onClick={() => onSelectedStudy(study)}>
-              <td style={styles.cell}>{study.id_SOP}</td>
+            <tr key={study.id_study} style={styles.row} onClick={() => onSelectedStudy(study)}>
+              <td style={styles.cell}>{study.id_study}</td>
               <td style={styles.cell}>{study.date}</td>
             </tr>
           ))}
         </tbody>
-
       </table>
     </div>
   );
