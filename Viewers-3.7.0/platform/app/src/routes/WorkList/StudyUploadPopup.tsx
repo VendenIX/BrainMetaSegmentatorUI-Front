@@ -1,9 +1,8 @@
-import { Modal, ProgressLoadingBar } from '@ohif/ui';
+import { Modal} from '@ohif/ui';
 import React, { useState, useRef, useEffect } from 'react';
 import DragAndDrop from './DragAndDrop';
 
 const StudyUploadPopup = ({ isOpen, onClose, onComplete }) => {
-  const [uploadProgress, setUploadProgress] = useState(null);
   const [filesCounter, setFilesCounter] = useState(null);
   const isMounted = useRef(true);
   const [isUploading, setIsUploading] = useState(false);
@@ -66,14 +65,11 @@ const StudyUploadPopup = ({ isOpen, onClose, onComplete }) => {
     >
       <div>
         <DragAndDrop onDrop={handleFilesDrop} isUploading={isUploading} />
-        {uploadProgress !== null && (
           <>
-            <ProgressLoadingBar progress={uploadProgress} />
             <div style={{ color: 'lightblue', textAlign: 'center' }}>
               {filesCounter}
             </div>
           </>
-        )}
       </div>
     </Modal>
   );
