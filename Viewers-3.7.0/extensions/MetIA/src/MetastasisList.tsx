@@ -20,7 +20,7 @@ function MetastasisList({ study }) {
           <tr>
             <th style={styles.header}>Nom</th>
             <th style={styles.header}>Diamètre (mm)</th>
-            <th style={styles.header}>Volum (cm³)</th>
+            <th style={styles.header}>Volume (cm³)</th>
             <th style={styles.header}>Slice de début</th>
             <th style={styles.header}>Slice de fin</th>
           </tr>
