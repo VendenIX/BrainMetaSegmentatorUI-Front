@@ -12,6 +12,12 @@ function MetastasisList({ study }) {
     }
   }, [study]);
 
+  // Fonction pour convertir la chaîne de couleur en format RGB utilisable en CSS
+  const formatColor = (colorString) => {
+    const colorArray = colorString.replace(/\[|\]/g, '').trim().split(/\s+/);
+    return `rgb(${colorArray.join(',')})`;
+  };
+
   return (
     <div style={styles.container}>
       <h1 style={styles.title}>Métastases pour l'étude : {study.id_study}</h1>
@@ -28,7 +34,7 @@ function MetastasisList({ study }) {
         <tbody>
           {metastases.map(metastase => (
             <tr key={metastase.idMetastase} style={styles.row}>
-              <td style={styles.cell}>{metastase.nom_metastase}</td>
+              <td style={{ ...styles.cell, color: formatColor(metastase.Color) }}>{metastase.nom_metastase}</td>
               <td style={styles.cell}>{metastase.diametre}</td>
               <td style={styles.cell}>{metastase.volume}</td>
               <td style={styles.cell}>{metastase.slice_Debut}</td>
@@ -81,6 +87,5 @@ const styles = {
     borderBottom: '1px solid #30363D' // ligne de séparation plus subtile
   }
 };
-
 
 export default MetastasisList;
