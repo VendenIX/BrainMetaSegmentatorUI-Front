@@ -4,9 +4,7 @@ function MetastasisList({ study }) {
   const [metastases, setMetastases] = useState([]);
 
   useEffect(() => {
-    console.log("roufil'étude :", study)
     if (study && study.id_study) {
-      console.log("c'est win");
       fetch(`http://localhost:5000/followup-metastases?idEtude=${study.id_study}`)
         .then(response => response.json())
         .then(setMetastases)
@@ -16,22 +14,23 @@ function MetastasisList({ study }) {
 
   return (
     <div style={styles.container}>
-      <h1 style={styles.title}>Métastases pour l'étude : {study.name}</h1>
+      <h1 style={styles.title}>Métastases pour l'étude : {study.id_study}</h1>
       <table style={styles.table}>
         <thead>
           <tr>
-            <th style={styles.header}>Volume</th>
+            <th style={styles.header}>Nom</th>
             <th style={styles.header}>Diamètre</th>
+            <th style={styles.header}>Volume</th>
             <th style={styles.header}>Slice de début</th>
             <th style={styles.header}>Slice de fin</th>
           </tr>
         </thead>
         <tbody>
-        {console.log("Metastases sélectionnées :", metastases)}
           {metastases.map(metastase => (
-            <tr key={metastase.id} style={styles.row}>
-              <td style={styles.cell}>{metastase.volume}</td>
+            <tr key={metastase.idMetastase} style={styles.row}>
+              <td style={styles.cell}>{metastase.nom_metastase}</td>
               <td style={styles.cell}>{metastase.diametre}</td>
+              <td style={styles.cell}>{metastase.volume}</td>
               <td style={styles.cell}>{metastase.slice_Debut}</td>
               <td style={styles.cell}>{metastase.slice_Fin}</td>
             </tr>

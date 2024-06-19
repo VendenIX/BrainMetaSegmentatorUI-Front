@@ -16,6 +16,7 @@ function PatientList({ onSelectPatient }) {
       <table style={styles.table}>
         <thead>
           <tr>
+            <th style={styles.header}>Id</th>
             <th style={styles.header}>Nom</th>
             <th style={styles.header}>Date de Naissance</th>
             <th style={styles.header}>Sexe</th>
@@ -23,11 +24,8 @@ function PatientList({ onSelectPatient }) {
         </thead>
         <tbody>
           {patients.map(patient => (
-            <tr key={patient.idPatient} style={styles.row} onClick={() => {
-              console.log("Patient sélectionné :", patient);
-              onSelectPatient(patient);
-            }}>
-
+            <tr key={patient.id} style={styles.row} onClick={() => onSelectPatient(patient)}>
+              <td style={styles.cell}>{patient.id}</td>
               <td style={styles.cell}>{patient.name}</td>
               <td style={styles.cell}>{formatDate(patient.date)}</td>
               <td style={styles.cell}>{patient.sexe}</td>
