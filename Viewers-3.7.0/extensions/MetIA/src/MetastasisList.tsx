@@ -29,8 +29,8 @@ function MetastasisList({ study }) {
           {metastases.map(metastase => (
             <tr key={metastase.idMetastase} style={styles.row}>
               <td style={styles.cell}>{metastase.nom_metastase}</td>
-              <td style={styles.cell}>{metastase.diametre}</td>
-              <td style={styles.cell}>{metastase.volume}</td>
+              <td style={styles.cell}>{metastase.diametre} (mm)</td>
+              <td style={styles.cell}>{metastase.volume} (cm³)</td>
               <td style={styles.cell}>{metastase.slice_Debut}</td>
               <td style={styles.cell}>{metastase.slice_Fin}</td>
             </tr>
