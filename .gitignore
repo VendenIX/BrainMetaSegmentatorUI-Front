@@ -30,7 +30,7 @@ Viewers-3.7.0/yarn-error.log
 Viewers-3.7.0/.DS_Store
 Viewers-3.7.0/.env
 Viewers-3.7.0/*.code-workspace
-
+Viewers-3.7.0/platform/app/dist/
 # Common Example Data Directories
 Viewers-3.7.0/sampledata/
 Viewers-3.7.0/example/deps/
@@ -51,3 +51,6 @@ Viewers-3.7.0/platform/app/.recipes/OpenResty-Orthanc/logs/*
 Viewers-3.7.0/.vercel
 
 Viewers-3.7.0/.vs
+
+.idea/
+.idea/*

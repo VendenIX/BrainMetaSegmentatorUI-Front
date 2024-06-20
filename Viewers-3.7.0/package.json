@@ -36,6 +36,7 @@
     "dev:static": "lerna run dev:static --stream",
     "orthanc:up": "docker-compose -f platform/app/.recipes/Nginx-Orthanc/docker-compose.yml up",
     "preinstall": "node preinstall.js",
+    "startdeploy": "node server.js",
     "start": "yarn run dev",
     "test": "yarn run test:unit",
     "test:data": "git submodule update --init",
@@ -59,7 +60,9 @@
   "dependencies": {
     "@babel/runtime": "^7.20.13",
     "@kitware/vtk.js": "27.3.1",
-    "core-js": "^3.2.1"
+    "core-js": "^3.2.1",
+    "cors": "^2.8.5",
+    "express": "^4.19.2"
   },
   "peerDependencies": {
     "react": "17.0.2",
