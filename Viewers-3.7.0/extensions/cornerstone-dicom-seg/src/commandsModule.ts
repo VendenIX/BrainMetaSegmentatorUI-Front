@@ -412,8 +412,7 @@ const commandsModule = ({
     },
   };*/
       // URL de l'API Orthanc pour effectuer la recherche
-      const orthancLookupUrl = `http://localhost:8080/tools/lookup`;
-
+      const orthancLookupUrl = `http://localhost/orthanc/tools/lookup`;
       // Effectuer la requête POST pour obtenir l'ID Orthanc
       const response = await fetch(orthancLookupUrl, {
         method: 'POST',
@@ -441,7 +440,7 @@ const commandsModule = ({
       console.log("Orthanc ID:", orthancId);
 
       // URL de l'API Orthanc pour récupérer le RTSTRUCT
-      const orthancUrl = `http://localhost:8080/instances/${orthancId}/file`;
+      const orthancUrl = `http://localhost/orthanc/instances/${orthancId}/file`;
       console.log("orthancUrl :", orthancUrl);
       // Effectuer la requête pour récupérer le RTSTRUCT
       const responseOrthanc = await fetch(orthancUrl, {
