@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 
-const BarChart = ({ data }) => {
+const ScatterChart = ({ data }) => {
   const chartRef = useRef(null);
 
   useEffect(() => {
@@ -15,40 +15,61 @@ const BarChart = ({ data }) => {
       const width = 800 - margin.left - margin.right;
       const height = 400 - margin.top - margin.bottom;
 
-      const x = d3.scaleBand()
-        .domain(data.map(d => d.nom_metastase))
-        .range([margin.left, width - margin.right])
-        .padding(0.1);
+      const x = d3.scaleLinear()
+        .domain([0, d3.max(data, d => d.diameter)]).nice()
+        .range([margin.left, width - margin.right]);
 
       const y = d3.scaleLinear()
         .domain([0, d3.max(data, d => d.volume)]).nice()
         .range([height - margin.bottom, margin.top]);
 
-      const color = d3.scaleOrdinal()
-        .domain(data.map(d => d.nom_metastase))
-        .range(d3.schemeCategory10);
+      const size = d3.scaleSqrt()
+        .domain([0, d3.max(data, d => d.volume)])
+        .range([0, 40]);
+
+      const tooltip = d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .style("position", "absolute")
+        .style("text-align", "center")
+        .style("width", "120px")
+        .style("height", "28px")
+        .style("padding", "2px")
+        .style("font", "12px sans-serif")
+        .style("background", "lightsteelblue")
+        .style("border", "0px")
+        .style("border-radius", "8px")
+        .style("pointer-events", "none")
+        .style("opacity", 0);
 
       svg.selectAll('*').remove(); // Clear the SVG before rendering
 
       svg.append('g')
-        .selectAll('rect')
+        .selectAll('circle')
         .data(data)
-        .enter().append('rect')
-        .attr('x', d => x(d.nom_metastase))
-        .attr('y', d => y(d.volume))
-        .attr('height', d => y(0) - y(d.volume))
-        .attr('width', x.bandwidth())
-        .attr('fill', d => d.color);
+        .enter().append('circle')
+        .attr('cx', d => x(d.diameter))
+        .attr('cy', d => y(d.volume))
+        .attr('r', d => size(d.volume))
+        .attr('fill', d => d.color)
+        .attr('opacity', 0.7)
+        .on("mouseover", (event, d) => {
+          tooltip.transition()
+            .duration(200)
+            .style("opacity", .9);
+          tooltip.html(d.name)
+            .style("left", (event.pageX + 5) + "px")
+            .style("top", (event.pageY - 28) + "px");
+        })
+        .on("mouseout", (d) => {
+          tooltip.transition()
+            .duration(500)
+            .style("opacity", 0);
+        });
 
       svg.append('g')
         .attr('transform', `translate(0,${height - margin.bottom})`)
         .call(d3.axisBottom(x))
         .selectAll("text")
-        .attr("y", 0)
-        .attr("x", 9)
-        .attr("dy", ".35em")
-        .attr("transform", "rotate(45)")
-        .style("text-anchor", "start")
         .style("fill", "#CCCCCC"); // Texte gris clair
 
       svg.append('g')
@@ -62,7 +83,7 @@ const BarChart = ({ data }) => {
         .attr('text-anchor', 'end')
         .attr('x', width / 2 + margin.left)
         .attr('y', height + margin.top)
-        .text('Nom des Métastases')
+        .text('Diamètre (mm)')
         .style("fill", "#58A6FF"); // Texte bleu clair
 
       // Adding Y axis label
@@ -81,4 +102,4 @@ const BarChart = ({ data }) => {
   );
 };
 
-export default BarChart;
+export default ScatterChart;
