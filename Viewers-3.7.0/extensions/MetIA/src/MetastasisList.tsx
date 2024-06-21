@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import BarChart from './BarChart';
 
 function MetastasisList({ study }) {
   const [metastases, setMetastases] = useState([]);
@@ -18,9 +19,17 @@ function MetastasisList({ study }) {
     return `rgb(${colorArray.join(',')})`;
   };
 
+  // Préparer les données pour le graphique en barres
+  const barData = metastases.map(m => ({
+    nom_metastase: m.nom_metastase,
+    volume: m.volume,
+    color: formatColor(m.Color)
+  }));
+
   return (
     <div style={styles.container}>
       <h1 style={styles.title}>Métastases pour l'étude : {study.id_study}</h1>
+      <BarChart data={barData} />
       <table style={styles.table}>
         <thead>
           <tr>
