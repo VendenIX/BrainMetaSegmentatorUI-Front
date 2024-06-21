@@ -51,3 +51,4 @@ Viewers-3.7.0/platform/app/.recipes/OpenResty-Orthanc/logs/*
 Viewers-3.7.0/.vercel
 
 Viewers-3.7.0/.vs
+.DS_Store
