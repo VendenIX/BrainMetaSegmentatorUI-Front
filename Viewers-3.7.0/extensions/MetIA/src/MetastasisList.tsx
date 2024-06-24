@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import BarChart from './BarChart';
+import ScatterChart from './ScatterChart';
 
 function MetastasisList({ study }) {
   const [metastases, setMetastases] = useState([]);
@@ -18,9 +20,31 @@ function MetastasisList({ study }) {
     return `rgb(${colorArray.join(',')})`;
   };
 
+  // Préparer les données pour les graphiques
+  const barData = metastases.map(m => ({
+    nom_metastase: m.nom_metastase,
+    volume: m.volume,
+    color: formatColor(m.Color)
+  }));
+
+  const scatterData = metastases.map(m => ({
+    name: m.nom_metastase,
+    diameter: m.diametre,
+    volume: m.volume,
+    color: formatColor(m.Color)
+  }));
+  
   return (
     <div style={styles.container}>
       <h1 style={styles.title}>Métastases pour l'étude : {study.id_study}</h1>
+      <div style={styles.chartContainer}>
+        <div style={styles.chart}>
+          <BarChart data={barData} />
+        </div>
+        <div style={styles.chart}>
+          <ScatterChart data={scatterData} />
+        </div>
+      </div>
       <table style={styles.table}>
         <thead>
           <tr>
@@ -62,6 +86,14 @@ const styles = {
     color: '#58A6FF', // bleu clair
     textAlign: 'center',
     marginBottom: '20px' // espace sous le titre
+  },
+  chartContainer: {
+    display: 'flex',
+    justifyContent: 'space-around',
+    marginBottom: '20px'
+  },
+  chart: {
+    width: '50%',
   },
   table: {
     width: '100%',
