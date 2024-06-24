@@ -142,7 +142,7 @@ export default function PanelSegmentation({
       if (newLabel === '') {
         return;
       }
-
+      segmentationService.setSegmentLabel(segmentationId, segmentIndex, newLabel); //on ment à l'utilisatuer provisoirement pour le moment
       // Faire l'appel à l'API pour renommer la ROI
       fetch('http://localhost:5000/rename-roi', {
         method: 'POST',
@@ -159,7 +159,8 @@ export default function PanelSegmentation({
       .then(data => {
         if (data.success) {
           console.log("ROI renamed successfully");
-          segmentationService.setSegmentLabel(segmentationId, segmentIndex, newLabel);
+          //segmentationService.setSegmentLabel(segmentationId, segmentIndex, newLabel);
+          //On pourrait try de le mettre ici mais faudrait retirer le téléchargement des dicoms obligatoire et donc revoir le code
         } else {
           console.error("Error renaming ROI:", data.error);
         }
