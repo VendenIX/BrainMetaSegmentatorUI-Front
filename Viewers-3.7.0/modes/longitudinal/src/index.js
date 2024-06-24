@@ -128,7 +128,7 @@ function modeFactory({ modeConfiguration }) {
       customizationService.addModeCustomizations([
         {
           id: 'segmentation.disableEditing',
-          value: true,
+          value: false,
         },
       ]);
 

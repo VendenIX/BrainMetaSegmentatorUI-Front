@@ -50,9 +50,12 @@ const SegmentItem = ({
               'hover:cursor-pointer hover:opacity-60': !disableEditing,
             })}
             onClick={e => {
+              console.log("je clique sur supprimer sur une ROI d'id", segmentationId, "et d'index", segmentIndex);
               if (disableEditing) {
+                console.log("malheureusement la suppression est désactivée (l'edition)");
                 return;
               }
+              console.log("cette ligne de code n'est jamais atteinte");
               e.stopPropagation();
               onDelete(segmentationId, segmentIndex);
             }}
@@ -116,7 +119,6 @@ const SegmentItem = ({
                     onToggleLocked(segmentationId, segmentIndex);
                   }}
                 />
-
                 {/* This icon is visible when 'isVisible' is true */}
                 {isVisible && (
                   <Icon

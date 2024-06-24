@@ -6,6 +6,8 @@ import { SegmentationGroupTable, LegacyButtonGroup, LegacyButton } from '@ohif/u
 import callInputDialog from './callInputDialog';
 import callColorPickerDialog from './colorPickerDialog';
 import { useTranslation } from 'react-i18next';
+import { HangingProtocol } from 'platform/core/src/types';
+import { forEach } from 'platform/core/src/utils/hierarchicalListUtils';
 
 export default function PanelSegmentation({
   servicesManager,
@@ -62,7 +64,6 @@ export default function PanelSegmentation({
   };
 
   const onSegmentationDelete = (segmentationId: string) => {
-    
     segmentationService.remove(segmentationId);
   };
 
@@ -71,6 +72,7 @@ export default function PanelSegmentation({
   };
 
   const onSegmentClick = (segmentationId, segmentIndex) => {
+    console.log("j'ai cliqué sur une ROI d'id", segmentationId, "et d'index", segmentIndex);
     segmentationService.setActiveSegment(segmentationId, segmentIndex);
 
     const toolGroupIds = getToolGroupIds(segmentationId);
@@ -82,7 +84,18 @@ export default function PanelSegmentation({
     });
   };
 
+  /*
   const onSegmentEdit = (segmentationId, segmentIndex) => {
+    console.log("j'ai cliqué sur renommer la roi d'id", segmentationId, "et d'index", segmentIndex);
+    const hangingProtocolService = servicesManager.services.DisplaySetService.activeDisplaySets;
+    let SOPInstanceUID = null;
+    console.log(servicesManager.services);
+    hangingProtocolService.forEach(element => {
+      if (element.Modality == "RTSTRUCT"){
+        console.log(element.SOPInstanceUID);
+        SOPInstanceUID = element.SOPInstanceUID;
+      }
+    });
     const segmentation = segmentationService.getSegmentation(segmentationId);
 
     const segment = segmentation.segments[segmentIndex];
@@ -94,6 +107,66 @@ export default function PanelSegmentation({
       }
 
       segmentationService.setSegmentLabel(segmentationId, segmentIndex, label);
+
+      console.log("je devrais donc sur l'api faire un renommage de la roi d'id", segmentationId, "et d'index", segmentIndex, "en ", label);
+    });
+  };
+*/
+  const onSegmentEdit = (segmentationId, segmentIndex) => {
+    console.log("j'ai cliqué sur renommer la roi d'id", segmentationId, "et d'index", segmentIndex);
+
+    const hangingProtocolService = servicesManager.services.DisplaySetService.activeDisplaySets;
+    let StudyInstanceUID = null;
+    let ROINumber = null;
+    console.log(servicesManager.services);
+
+    // Récupérer le SOPInstanceUID
+    hangingProtocolService.forEach(element => {
+      if (element.Modality == "RTSTRUCT") {
+        console.log(element.StudyInstanceUID);
+        StudyInstanceUID = element.StudyInstanceUID;
+        ROINumber = segmentIndex;
+      }
+    });
+
+    if (!StudyInstanceUID || !ROINumber) {
+      console.error('StudyInstanceUID not found');
+      return;
+    }
+
+    const segmentation = segmentationService.getSegmentation(segmentationId);
+    const segment = segmentation.segments[segmentIndex];
+    const { label } = segment;
+
+    callInputDialog(uiDialogService, label, (newLabel, actionId) => {
+      if (newLabel === '') {
+        return;
+      }
+
+      // Faire l'appel à l'API pour renommer la ROI
+      fetch('http://localhost:5000/rename-roi', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          study_instance_uid: StudyInstanceUID,
+          roi_number: ROINumber,
+          new_name: newLabel,
+        }),
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          console.log("ROI renamed successfully");
+          segmentationService.setSegmentLabel(segmentationId, segmentIndex, newLabel);
+        } else {
+          console.error("Error renaming ROI:", data.error);
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
     });
   };
 
