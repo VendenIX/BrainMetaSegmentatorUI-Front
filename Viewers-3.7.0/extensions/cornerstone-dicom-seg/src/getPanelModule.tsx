@@ -19,7 +19,7 @@ const getPanelModule = ({ commandsManager, servicesManager, extensionManager, co
         extensionManager={extensionManager}
         configuration={{
           ...configuration,
-          disableEditing: appConfig.disableEditing || disableEditingForMode?.value,
+          disableEditing: appConfig.disableEditing || disableEditingForMode?.value, //ETREIPO
         }}
       />
     );
