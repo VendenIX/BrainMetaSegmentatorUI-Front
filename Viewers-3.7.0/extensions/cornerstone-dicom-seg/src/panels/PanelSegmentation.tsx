@@ -124,6 +124,7 @@ export default function PanelSegmentation({
     hangingProtocolService.forEach(element => {
       if (element.Modality == "RTSTRUCT") {
         console.log(element.StudyInstanceUID);
+        console.log(element)
         StudyInstanceUID = element.StudyInstanceUID;
         ROINumber = segmentIndex;
       }
