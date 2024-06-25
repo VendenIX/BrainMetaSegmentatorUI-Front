@@ -26,7 +26,7 @@ import i18n from '@ohif/i18n';
 import PatientList from './PatientList';
 import StudyList from './StudyList';
 import MetastasisList from './MetastasisList';
-
+import SeriesList from './SeriesList';
 
 const TrackingPage = ({ servicesManager, extensionManager, hotkeysManager }) => {
     const { show, hide } = useModal();
@@ -87,6 +87,7 @@ const TrackingPage = ({ servicesManager, extensionManager, hotkeysManager }) => 
 
 const [selectedPatient, setSelectedPatient] = useState(null);
 const [selectedStudy, setSelectedStudy] = useState(null);
+const [selectedSerie, setSelectedSerie] = useState(null);
 
   return (
     <div className="flex h-screen flex-col">
@@ -98,8 +99,9 @@ const [selectedStudy, setSelectedStudy] = useState(null);
         />
         <div className="tracking-page">
           <PatientList onSelectPatient={setSelectedPatient} />
-          {selectedPatient && <StudyList onSelectedStudy={setSelectedStudy} patient={selectedPatient} />}
-          {selectedStudy && <MetastasisList study={selectedStudy} />}
+        {selectedPatient && <StudyList onSelectedStudy={setSelectedStudy} patient={selectedPatient} />}
+        {selectedStudy && <SeriesList onSelectedSeries={setSelectedSerie} study={selectedStudy} />}
+        {selectedSerie && <MetastasisList serie={selectedSerie} />}
         </div>
 
     </div>
