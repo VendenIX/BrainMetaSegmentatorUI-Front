@@ -33,6 +33,10 @@ const ButtonPanelComponent = ({ servicesManager }) => {
 
         //servicesManager.services.uiNotificationService.publish('SEGMENTATION_COMPLETE', { studyInstanceUID });
         setIsLoading(false);
+        //attendre 3 secondes et refresh la page :
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
       })
       .catch(error => {
         console.error('There was an error during segmentation or RTStruct upload:', error);
