@@ -210,6 +210,7 @@ class SegmentationService extends PubSubService {
   }
 
   public removeSegment(segmentationId: string, segmentIndex: number): void {
+
     const segmentation = this.getSegmentation(segmentationId);
 
     if (segmentation === undefined) {
@@ -230,7 +231,9 @@ class SegmentationService extends PubSubService {
 
     // Get volume and delete the labels
     // Todo: handle other segmentations other than labelmap
+    console.log("c'est ici que ca merdouille");
     const labelmapVolume = this.getLabelmapVolume(segmentationId);
+    console.log("labelmapVolume : ", labelmapVolume);
 
     const { dimensions } = labelmapVolume;
     const scalarData = labelmapVolume.getScalarData();

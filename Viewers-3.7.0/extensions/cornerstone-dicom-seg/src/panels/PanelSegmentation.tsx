@@ -1,7 +1,7 @@
 import { createReportAsync } from '@ohif/extension-default';
 import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { SegmentationGroupTable, LegacyButtonGroup, LegacyButton } from '@ohif/ui';
+import { SegmentationGroupTable, LegacyButtonGroup, LegacyButton , Modal, Button } from '@ohif/ui';
 
 import callInputDialog from './callInputDialog';
 import callColorPickerDialog from './colorPickerDialog';
@@ -117,6 +117,7 @@ export default function PanelSegmentation({
 
     const hangingProtocolService = servicesManager.services.DisplaySetService.activeDisplaySets;
     let StudyInstanceUID = null;
+    let SerieInstanceuid = null;
     let ROINumber = null;
     console.log(servicesManager.services);
 
@@ -126,11 +127,12 @@ export default function PanelSegmentation({
         console.log(element.StudyInstanceUID);
         console.log(element)
         StudyInstanceUID = element.StudyInstanceUID;
+        SerieInstanceuid = element.SeriesInstanceUID;
         ROINumber = segmentIndex;
       }
     });
 
-    if (!StudyInstanceUID || !ROINumber) {
+    if (!StudyInstanceUID || !ROINumber || !SerieInstanceuid) {
       console.error('StudyInstanceUID not found');
       return;
     }
@@ -151,6 +153,7 @@ export default function PanelSegmentation({
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          serie_instance_uid: SerieInstanceuid,
           study_instance_uid: StudyInstanceUID,
           roi_number: ROINumber,
           new_name: newLabel,
@@ -218,10 +221,144 @@ export default function PanelSegmentation({
       ]);
     });
   };
-
+/*
   const onSegmentDelete = (segmentationId, segmentIndex) => {
-    segmentationService.removeSegment(segmentationId, segmentIndex);
+    console.log("Suppression du segment", segmentIndex, "de la segmentation", segmentationId);
+
+    // Récupérer la segmentation actuelle
+    const segmentation = segmentationService.getSegmentation(segmentationId);
+    console.log("debug :", segmentation);
+    if (segmentation) {
+      // Supprimer le segment de la segmentation
+      //segmentation.isVisible = false;
+      const toolGroupIds = getToolGroupIds(segmentationId);
+      // Todo: right now we apply the visibility to all tool groups
+      toolGroupIds.forEach(toolGroupId => {
+        segmentationService.setSegmentVisibility(
+          segmentationId,
+          segmentIndex,
+          false,
+          toolGroupId
+        );
+      });
+      segmentation.segments[segmentIndex] = null;
+      //console.log("debug :", segmentation.isVisible);
+      // Mettre à jour l'état des segmentations
+      const updatedSegmentations = segmentations.map(seg => {
+        if (seg.id === segmentationId) {
+          return { ...seg, segments: [...seg.segments] };
+        }
+        return seg;
+      });
+
+      setSegmentations(updatedSegmentations);
+
+      // Vous pouvez également déclencher un événement personnalisé si nécessaire
+      segmentationService._broadcastEvent(segmentationService.EVENTS.SEGMENTATION_UPDATED, {
+        segmentation: segmentationService.getSegmentation(segmentationId),
+      });
+    }
+
+    // segmentationService.removeSegment(segmentationId, segmentIndex); // Commenté pour éviter les problèmes de cache
   };
+*/
+
+const [showConfirmation, setShowConfirmation] = useState(false);
+const [retainChoice, setRetainChoice] = useState(false);
+const [currentSegmentationId, setCurrentSegmentationId] = useState(null);
+const [currentSegmentIndex, setCurrentSegmentIndex] = useState(null);
+
+const confirmDelete = () => {
+  onSegmentDeleteConfirmed(currentSegmentationId, currentSegmentIndex);
+  setShowConfirmation(false);
+};
+
+const cancelDelete = () => {
+  setShowConfirmation(false);
+};
+
+const onSegmentDeleteConfirmed = (segmentationId, segmentIndex) => {
+  console.log("Suppression du segment", segmentIndex, "de la segmentation", segmentationId);
+
+  const segmentation = segmentationService.getSegmentation(segmentationId);
+  console.log("debug :", segmentation);
+
+  if (segmentation) {
+    const hangingProtocolService = servicesManager.services.DisplaySetService.activeDisplaySets;
+    let StudyInstanceUID = null;
+    let SerieInstanceuid = null;
+    let ROINumber = segmentIndex;
+
+    // Récupérer les IDs nécessaires
+    hangingProtocolService.forEach(element => {
+      if (element.Modality == "RTSTRUCT") {
+        StudyInstanceUID = element.StudyInstanceUID;
+        SerieInstanceuid = element.SeriesInstanceUID;
+      }
+    });
+
+    if (!StudyInstanceUID || !ROINumber || !SerieInstanceuid) {
+      console.error('Required parameters not found');
+      return;
+    }
+
+    // Appel API pour la suppression
+    fetch('http://localhost:5000/delete-roi', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        serie_instance_uid: SerieInstanceuid,
+        study_instance_uid: StudyInstanceUID,
+        roi_number: ROINumber,
+      }),
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        console.log("ROI deleted successfully");
+
+        // Mettre à jour la visibilité du segment
+        const toolGroupIds = getToolGroupIds(segmentationId);
+        toolGroupIds.forEach(toolGroupId => {
+          segmentationService.setSegmentVisibility(segmentationId, segmentIndex, false, toolGroupId);
+        });
+
+        // Supprimer le segment de la segmentation
+        segmentation.segments[segmentIndex] = null;
+
+        // Mettre à jour l'état des segmentations
+        const updatedSegmentations = segmentations.map(seg => {
+          if (seg.id === segmentationId) {
+            return { ...seg, segments: [...seg.segments] };
+          }
+          return seg;
+        });
+
+        setSegmentations(updatedSegmentations);
+        segmentationService._broadcastEvent(segmentationService.EVENTS.SEGMENTATION_UPDATED, {
+          segmentation: segmentationService.getSegmentation(segmentationId),
+        });
+      } else {
+        console.error("Error deleting ROI:", data.error);
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  }
+};
+
+const onSegmentDelete = (segmentationId, segmentIndex) => {
+  setCurrentSegmentationId(segmentationId);
+  setCurrentSegmentIndex(segmentIndex);
+  if (retainChoice) {
+    onSegmentDeleteConfirmed(segmentationId, segmentIndex);
+  } else {
+    setShowConfirmation(true);
+  }
+};
 
   const onToggleSegmentVisibility = (segmentationId, segmentIndex) => {
     const segmentation = segmentationService.getSegmentation(segmentationId);
@@ -297,6 +434,33 @@ export default function PanelSegmentation({
     });
   };
 
+  const styles = {
+    confirmationPopup: {
+      position: 'fixed',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      background: 'white',
+      border: '1px solid #ccc',
+      borderRadius: '8px',
+      padding: '20px',
+      boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
+      zIndex: 1000,
+    },
+    confirmationPopupContent: {
+      textAlign: 'center',
+    },
+    confirmationPopupActions: {
+      display: 'flex',
+      justifyContent: 'space-around',
+      marginTop: '20px',
+    },
+    confirmationPopupButton: {
+      padding: '10px 20px',
+      cursor: 'pointer',
+    },
+  };
+
   return (
     <>
       <div className="ohif-scrollbar flex min-h-0 flex-auto select-none flex-col justify-between overflow-auto">
@@ -349,6 +513,32 @@ export default function PanelSegmentation({
           }
         />
       </div>
+      {showConfirmation && (
+      <Modal
+        isOpen={showConfirmation}
+        onClose={cancelDelete}
+        title="Confirmation de suppression"
+        closeButton={true}
+        shouldCloseOnEsc={true}
+        shouldCloseOnOverlayClick={true}
+      >
+        <div style={styles.confirmationPopupContent}>
+          <p>Etes-vous sûr de vouloir supprimer ce segment ?</p>
+          <label>
+            <input
+              type="checkbox"
+              checked={retainChoice}
+              onChange={e => setRetainChoice(e.target.checked)}
+            />
+            Conserver ce choix (juste pour cette page)
+          </label>
+          <div style={styles.confirmationPopupActions}>
+            <Button variant="outlined" onClick={cancelDelete}>Annuler</Button>
+            <Button variant="contained" color="secondary" onClick={confirmDelete}>Supprimer</Button>
+          </div>
+        </div>
+      </Modal>
+    )}
     </>
   );
 }
