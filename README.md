@@ -23,6 +23,11 @@ If you cannot install yarn, you can do everything with npm, but it is a bit more
 
 ## Installation and Launch
 
+If you use Windows instead of Ubuntu or MACOS, use the windows branch :
+```
+git checkout deploiementWindows
+```
+
 To start the front-end part, navigate to the front-end directory and run the following commands:
 ```
 # Navigate to the Viewers-3.7.0 directory
