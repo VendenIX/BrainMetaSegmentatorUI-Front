@@ -7,14 +7,18 @@ const ConfirmDeletionPopup = ({ isOpen, onClose, onConfirm, message, isProcessin
       isOpen={isOpen}
       onClose={onClose}
       title="Confirmation de suppression"
-      closeButton={true}
-      shouldCloseOnEsc={true}
-      shouldCloseOnOverlayClick={true}
+      closeButton={!isProcessing} // Désactive le bouton de fermeture pendant le traitement
+      shouldCloseOnEsc={!isProcessing}
+      shouldCloseOnOverlayClick={!isProcessing}
     >
       <div className="p-4">
         <p>{message}</p>
         <div className="flex justify-end space-x-2 mt-4">
-          {isFinished ? (
+          {isProcessing ? (
+            <Button variant="contained" disabled>
+              Traitement...
+            </Button>
+          ) : isFinished ? (
             <Button variant="outlined" onClick={onClose}>
               Fermer
             </Button>
@@ -27,11 +31,6 @@ const ConfirmDeletionPopup = ({ isOpen, onClose, onConfirm, message, isProcessin
                 Supprimer
               </Button>
             </>
-          )}
-          {isProcessing && (
-            <Button variant="contained" disabled>
-              Traitement...
-            </Button>
           )}
         </div>
       </div>
