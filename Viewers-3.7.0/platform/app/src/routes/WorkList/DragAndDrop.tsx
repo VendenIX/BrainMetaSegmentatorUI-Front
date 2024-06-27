@@ -1,6 +1,6 @@
-import React, { useRef , useEffect} from 'react';
+import React, { useRef } from 'react';
 
-const DragAndDrop = ({ onDrop , isUploading}) => {
+const DragAndDrop = ({ onDrop, isUploading }) => {
   const fileInputRef = useRef(null);
 
   const handleDrop = (e) => {
@@ -34,7 +34,7 @@ const DragAndDrop = ({ onDrop , isUploading}) => {
         className={`mb-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ${isUploading ? 'opacity-50 cursor-not-allowed' : ''}`}
         disabled={isUploading} // Désactive le bouton pendant l'upload
       >
-        Sélectionner des fichiers
+        {isUploading ? 'Traitement en cours...' : 'Sélectionner des fichiers'}
       </button>
       <input
         ref={fileInputRef}
