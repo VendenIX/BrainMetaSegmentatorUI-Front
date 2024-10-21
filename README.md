@@ -72,7 +72,7 @@ Detailled video here: [Youtube Video](https://www.youtube.com/watch?v=WYHO6ywtnE
 
 ![Project Demonstration](images_readme/zoomIn.gif)
 
-A automated tracking patient follow-up page :
+An automated tracking patient follow-up page :
 
 ![Project Demonstration](images_readme/patient_follow_up.png)
 
