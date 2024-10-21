@@ -54,12 +54,15 @@ This will place the build in the Viewer-3.7.0/platform/app/dist directory. This 
 
 ## Demonstration
 
-You can see a demonstration of the interface in the GIF below:
+Quick demo here (without final patient follow-up): [YouTube Video](https://www.youtube.com/watch?v=PkEinJDBh0A)
 
 ![Project Demonstration](images_readme/demo.gif)
 
-Quick demo here (without final patient follow-up): [YouTube Video](https://www.youtube.com/watch?v=PkEinJDBh0A)
 Detailled video here: [Youtube Video](https://www.youtube.com/watch?v=WYHO6ywtnE4)
+
+![Project Demonstration](images_readme/screenPicture.gif)
+
+
 
 ## Features of the MetIA Extension
 
