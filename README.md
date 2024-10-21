@@ -58,7 +58,8 @@ You can see a demonstration of the interface in the GIF below:
 
 ![Project Demonstration](images_readme/demo.gif)
 
-Full video here: [YouTube Video](https://www.youtube.com/watch?v=PkEinJDBh0A)
+Quick demo here (without final patient follow-up): [YouTube Video](https://www.youtube.com/watch?v=PkEinJDBh0A)
+Detailled video here: [Youtube Video](https://www.youtube.com/watch?v=WYHO6ywtnE4)
 
 ## Features of the MetIA Extension
 
