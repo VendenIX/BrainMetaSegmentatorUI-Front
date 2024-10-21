@@ -70,6 +70,8 @@ Detailled video here: [Youtube Video](https://www.youtube.com/watch?v=WYHO6ywtnE
 - **Patient tracking**: Manage and track patients across different studies and segmentation results.
 - **Deep learning segmentation of metastases**: Launch the segmentation of brain metastases via the UNETR algorithm directly from the interface.
 
+![Project Demonstration](images_readme/zoomIn.gif)
+
 ## Orthanc Server Configuration
 
 To use this front-end, you must run the back-end of the project. There is a Docker stack (optional, it can be bypassed) containing an Orthanc DICOM server with an nginx proxy and a Flask API. The complete setup is described in the [back-end README](https://github.com/VendenIX/BrainMetaSegmentatorUI-Back).
