@@ -79,3 +79,28 @@ An automated tracking patient follow-up page :
 ## Orthanc Server Configuration
 
 To use this front-end, you must run the back-end of the project. There is a Docker stack (optional, it can be bypassed) containing an Orthanc DICOM server with an nginx proxy and a Flask API. The complete setup is described in the [back-end README](https://github.com/VendenIX/BrainMetaSegmentatorUI-Back).
+
+## References
+
+```bibtex
+@article{DESSOUDE2025121002,
+title = {Development and routine implementation of deep learning algorithm for automatic brain metastases segmentation on MRI for RANO-BM criteria follow-up},
+journal = {NeuroImage},
+volume = {306},
+pages = {121002},
+year = {2025},
+issn = {1053-8119},
+doi = {https://doi.org/10.1016/j.neuroimage.2025.121002},
+url = {https://www.sciencedirect.com/science/article/pii/S1053811925000023},
+author = {Loïse Dessoude and Raphaëlle Lemaire and Romain Andres and Thomas Leleu and Alexandre G. Leclercq and Alexis Desmonts and Typhaine Corroller and Amirath Fara Orou-Guidou and Luca Laduree and Loic Le Henaff and Joëlle Lacroix and Alexis Lechervy and Dinu Stefan and Aurélien Corroyer-Dulmont},
+keywords = {Deep learning, Radiology, Brain metastases, RANO-BM, Clinical routine},
+abstract = {Rationale and objectives
+The RANO-BM criteria, which employ a one-dimensional measurement of the largest diameter, are imperfect due to the fact that the lesion volume is neither isotropic nor homogeneous. Furthermore, this approach is inherently time-consuming. Consequently, in clinical practice, monitoring patients in clinical trials in compliance with the RANO-BM criteria is rarely achieved. The objective of this study was to develop and validate an AI solution capable of delineating brain metastases (BM) on MRI to easily obtain, using an in-house solution, RANO-BM criteria as well as BM volume in a routine clinical setting.
+Materials (patients) and methods
+A total of 27,456 post-Gadolinium-T1 MRI from 132 patients with BM were employed in this study. A deep learning (DL) model was constructed using the PyTorch and PyTorch Lightning frameworks, and the UNETR transfer learning method was employed to segment BM from MRI.
+Results
+A visual analysis of the AI model results demonstrates confident delineation of the BM lesions. The model shows 100 % accuracy in predicting RANO-BM criteria in comparison to that of an expert medical doctor. There was a high degree of overlap between the AI and the doctor's segmentation, with a mean DICE score of 0.77. The diameter and volume of the BM lesions were found to be concordant between the AI and the reference segmentation. The user interface developed in this study can readily provide RANO-BM criteria following AI BM segmentation.
+Conclusion
+The in-house deep learning solution is accessible to everyone without expertise in AI and offers effective BM segmentation and substantial time savings.}
+}
+```
