@@ -80,7 +80,7 @@ An automated tracking patient follow-up page :
 
 To use this front-end, you must run the back-end of the project. There is a Docker stack (optional, it can be bypassed) containing an Orthanc DICOM server with an nginx proxy and a Flask API. The complete setup is described in the [back-end README](https://github.com/VendenIX/BrainMetaSegmentatorUI-Back).
 
-## References
+## Citation
 
 ```bibtex
 @article{DESSOUDE2025121002,
